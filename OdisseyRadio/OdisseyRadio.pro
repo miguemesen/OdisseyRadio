@@ -11,11 +11,14 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    reader.cpp
+    reader.cpp \
+    song.cpp
 
 HEADERS += \
     LinkedList.h \
-    mainwindow.h
+    mainwindow.h \
+    reader.h \
+    song.h
 
 FORMS += \
     mainwindow.ui

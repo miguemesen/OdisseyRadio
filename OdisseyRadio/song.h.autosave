@@ -1,0 +1,18 @@
+#pragma once
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class song
+{
+public:
+    string songName;
+    string artistName;
+    string songLength;
+    string songGenre;
+    string songId;
+    song();
+};
+
+
