@@ -1,12 +1,18 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <QListWidgetItem>
 
-class song
+using namespace std;
+
+class song : public QListWidgetItem
 {
 public:
-    string songName;
-
+    QString songName;
+    string artistName;
+    string songLength;
+    string songGenre;
+    string songId;
     song();
 };
 

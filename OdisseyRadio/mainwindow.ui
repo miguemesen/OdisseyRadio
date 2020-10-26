@@ -6,39 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>348</width>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QListView" name="lv_songs">
+   <widget class="QListWidget" name="lw_song">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>20</y>
-      <width>471</width>
-      <height>451</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QListView" name="lv_albums">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>201</width>
+      <x>60</x>
+      <y>50</y>
+      <width>256</width>
       <height>192</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_play">
+   <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>480</y>
+      <x>120</x>
+      <y>250</y>
       <width>89</width>
       <height>25</height>
      </rect>
@@ -47,26 +37,13 @@
      <string>Play</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_stop">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>520</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Stop</string>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>348</width>
      <height>22</height>
     </rect>
    </property>
