@@ -13,6 +13,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    LinkedList.h \
     mainwindow.h
 
 FORMS += \
