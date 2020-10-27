@@ -13,6 +13,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     reader.cpp \
+    readerchecksums.cpp \
     song.cpp
 
 HEADERS += \
@@ -20,6 +21,7 @@ HEADERS += \
     gettrack.h \
     mainwindow.h \
     reader.h \
+    readerchecksums.h \
     song.h
 
 FORMS += \

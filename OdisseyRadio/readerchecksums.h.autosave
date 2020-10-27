@@ -1,0 +1,24 @@
+#pragma once
+#include <iostream>
+#include <string>
+
+
+class readerChecksums
+{
+public:
+    std::string path;
+    
+    std::string line;
+
+    readerChecksums();
+
+    std::string getString();
+
+    std::string getSongPath();
+
+    std::string getSongId();
+
+    void something();
+};
+
+

@@ -19,16 +19,19 @@ public:
     LinkedList<std::string> myList;
     vector<string> csvColumn;
     string path = "/home/migue/Desktop/fma_metadata/raw_tracks.csv";
+    std::string path2 = "/home/migue/Desktop/fma_small/checksums";
 
 
 public:
 
     void getIp(int id){
-        ifstream ip(path);
+        ifstream ip(path2);
         getline(ip,line,'\n');
+        log(line)
 
         while (true){
             getline(ip,line,',');
+            log(line)
             stringstream xd(line);
             xd >> localId;
             if(localId==id){
@@ -88,14 +91,14 @@ public:
 
 
 
-//int main() {
-//    reader myReader;
-//    myReader.getIp(20);
+int main() {
+    reader myReader;
+    myReader.getIp(20);
 //    myReader.fillCsvColumn();
 //    myReader.fillList();
 //    myReader.assignSongInfo();
 //    myReader.logMetadata();
-//    return 0;
-//}
+    return 0;
+}
 
 
