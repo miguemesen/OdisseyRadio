@@ -1,22 +1,29 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 
 
 class readerChecksums
 {
 public:
     std::string path;
+    
+
+
 
     readerChecksums();
 
-    std::string getString();
+    std::string getString(std::string line);
 
-    std::string getSongPath();
+    std::vector<std::string> getNext();
 
-    std::string getSongId();
+    std::string getPrevious();
 
-    void something();
+    std::string getSongPath(std::string songString);
+
+    std::string getSongId(std::string songString);
+
 };
 
 
