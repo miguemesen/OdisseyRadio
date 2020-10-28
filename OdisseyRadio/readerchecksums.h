@@ -16,7 +16,9 @@ public:
 
     std::string getString(std::string line);
 
-    std::vector<std::string> getNext();
+    void getIp(std::string songId);
+
+    std::vector<std::string> getNext(std::string songId);
 
     std::string getPrevious();
 

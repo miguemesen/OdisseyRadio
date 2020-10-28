@@ -14,19 +14,56 @@ readerChecksums::readerChecksums()
 
 }
 
-
-std::string readerChecksums::getString(std::string line){
-    std::ifstream ip(::path);
-    getline(ip,line,'\n');
-    getline(ip,line,'\n');
-    return line;
+std::string readerChecksums::getSongId(std::string songString){
+    std::string temp = songString.erase(0,46);
+    return temp.erase(6,4);
 }
 
+
+void readerChecksums::getIp(std::string songId){
+    std::ifstream ip(::path);
+    std::string line;
+    int localId = 0;
+    int otherId = 0;
+    std::stringstream xdd(songId);
+    xdd >> otherId;
+    log(otherId)
+    while (true){
+        getline(ip,line,'\n');
+        std::string temp = getSongId(line);
+        std::stringstream xd(temp);
+        xd >> localId;
+        log(localId)
+        if(localId==otherId){
+            log("logging from if")
+            log(line)
+            getline(ip,line,'\n');
+            break;
+        }
+        else if (localId > otherId){
+            log("No existe esta pieza")
+            break;
+        }
+//        else{
+
+//            getline(ip,line,'\n');
+//            log("log desde else");
+//            std::cout<<"line desde el else: "<<line<<std::endl;
+//        }
+    }
+}
+
+
 // Gets next 5 lines and returns them in a vector
-std::vector<std::string> readerChecksums::getNext(){
+std::vector<std::string> readerChecksums::getNext(std::string songId){
     std::ifstream ip(::path);
     std::string line;
     std::vector<std::string> myVector(5);
+
+    while (true)
+    {
+
+    }
     for(int i = 0; i < 5; i++)
     {
         getline(ip,line,'\n');
@@ -40,14 +77,11 @@ std::string readerChecksums::getSongPath(std::string songString){
     return songString.erase(0,42);
 }
 
-std::string readerChecksums::getSongId(std::string songString){
-    std::string temp = songString.erase(0,46);
-    return temp.erase(6,4);
-}
+
 
 
 
 int main(){
     readerChecksums myReader;
-    myReader.getSongId("6976e70271234351250ada3fc49c5afd69ba9864  000/000002.mp3");
+    myReader.getIp("000003");
 }
