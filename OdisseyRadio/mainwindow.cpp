@@ -16,8 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    readerChecksums myReadercheck;
-    myReadercheck.something();
 
     song *mySongs[10];
 

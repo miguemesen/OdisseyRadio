@@ -91,14 +91,14 @@ public:
 
 
 
-int main() {
-    reader myReader;
-    myReader.getIp(20);
-//    myReader.fillCsvColumn();
-//    myReader.fillList();
-//    myReader.assignSongInfo();
-//    myReader.logMetadata();
-    return 0;
-}
+//int main() {
+//    reader myReader;
+//    myReader.getIp(20);
+////    myReader.fillCsvColumn();
+////    myReader.fillList();
+////    myReader.assignSongInfo();
+////    myReader.logMetadata();
+//    return 0;
+//}
 
 

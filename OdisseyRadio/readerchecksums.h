@@ -8,17 +8,16 @@ class readerChecksums
 {
 public:
     std::string path;
-    
-
-
 
     readerChecksums();
 
     std::string getString(std::string line);
 
-    void getIp(std::string songId);
+    int getSongById(std::string songId);
 
     std::vector<std::string> getNext(std::string songId);
+
+    std::vector<std::string> getPrevious(std::string songId);
 
     std::string getPrevious();
 
