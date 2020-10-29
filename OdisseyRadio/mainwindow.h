@@ -16,6 +16,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void pageManager();
     void onAction();
 
 private:

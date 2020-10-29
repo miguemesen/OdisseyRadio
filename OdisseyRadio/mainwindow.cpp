@@ -6,6 +6,10 @@
 #include "page.h"
 #define log(x) std::cout<<x<<std::endl;
 
+page previousPage;
+page currentPage;
+page nextPage;
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -13,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
 
     song *mySong = new song;
 
@@ -49,9 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
     newItem11->setText("helloooo");
     newItem12->setText("helloooo");
 
-    page myPage;
-    myPage.something();
-
 
     ui->lw_song->insertItem(0,newItem1);
     ui->lw_song->insertItem(0,newItem2);
@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lw_song->insertItem(0,mySong);
 
     QScrollBar* myScroll = ui->lw_song->verticalScrollBar();
-    connect(myScroll,&QScrollBar::valueChanged,[&]{onAction();});
+    connect(myScroll,&QScrollBar::valueChanged,[&]{pageManager();});
 
 
 
@@ -79,7 +79,17 @@ MainWindow::MainWindow(QWidget *parent)
 //    }
 }
 
-void MainWindow::onAction(){
+void MainWindow::pageManager()
+{
+    if(ui->lw_song->verticalScrollBar()->value()==0)
+    {
+        previousPage.myPage.removeAll();
+
+    }
+}
+
+void MainWindow::onAction()
+{
     if(ui->lw_song->verticalScrollBar()->value()==7)
     {
 

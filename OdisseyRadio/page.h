@@ -12,8 +12,6 @@ public:
 
     LinkedList<song> myPage;
 
-    std::vector<song> mySongs[5];
-
     void something();
 
 };
