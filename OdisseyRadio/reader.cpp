@@ -18,7 +18,7 @@ string line;
 int localId = 0;
 LinkedList<std::string> myList;
 vector<string> csvColumn;
-string path = "/home/migue/Desktop/fma_metadata/raw_tracks.csv";
+string path2 = "/home/migue/Desktop/fma_metadata/raw_tracks.csv";
 //std::string path2 = "/home/migue/Desktop/fma_small/checksums";
 
 
@@ -28,13 +28,10 @@ reader::reader()
 }
 
     void reader::getIp(int id){
-        ifstream ip(::path);
+        ifstream ip(::path2);
         getline(ip,line,'\n');
-        log(line)
-
         while (true){
             getline(ip,line,',');
-            log(line)
             stringstream xd(line);
             xd >> localId;
             if(localId==id){
@@ -93,14 +90,14 @@ reader::reader()
 
 
 
-int main() {
-    reader myReader;
-    myReader.getIp(20);
-    myReader.fillCsvColumn();
-    myReader.fillList();
-    myReader.assignSongInfo();
-    myReader.logMetadata();
-    return 0;
-}
+//int main() {
+//    reader myReader;
+//    myReader.getIp(20);
+//    myReader.fillCsvColumn();
+//    myReader.fillList();
+//    myReader.assignSongInfo();
+//    myReader.logMetadata();
+//    return 0;
+//}
 
 

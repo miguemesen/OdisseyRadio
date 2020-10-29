@@ -8,8 +8,7 @@ public:
 
     LinkedList<std::string> getArtists();
 
-    std::string path;
-    std::string path2;
+    //std::string path;
 
     bool exist(std::string artistName, LinkedList<std::string> list);
 

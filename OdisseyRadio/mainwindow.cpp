@@ -13,6 +13,8 @@ page nextPage;
 readerChecksums currentReader;
 readerChecksums nextReader;
 readerChecksums previousReader;
+fetchArtists myArtistFetcher;
+
 
 
 
@@ -25,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lw_song->verticalScrollBar()->setMaximum(23);
 
 
-
+    myArtistFetcher.getArtists();
 
     currentPage.myPage=currentReader.getFirst();
     nextPage.myPage=nextReader.getNext(currentPage.myPage.get(11)->data.songId);
