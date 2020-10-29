@@ -17,7 +17,6 @@ public:
 
 private slots:
     void pageManager();
-
 private:
     Ui::MainWindow *ui;
 

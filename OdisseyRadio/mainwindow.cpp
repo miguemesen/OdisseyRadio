@@ -4,6 +4,7 @@
 #include "readerchecksums.h"
 #include "QScrollBar"
 #include "page.h"
+#include "fetchartists.h"
 #define log(x) std::cout<<x<<std::endl;
 
 page previousPage;
@@ -20,6 +21,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->lw_song->verticalScrollBar()->setMaximum(23);
+
+
+
 
     currentPage.myPage=currentReader.getFirst();
     nextPage.myPage=nextReader.getNext(currentPage.myPage.get(11)->data.songId);
@@ -41,15 +47,13 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
 
-
-
     QScrollBar* myScroll = ui->lw_song->verticalScrollBar();
     connect(myScroll,&QScrollBar::valueChanged,[&]{pageManager();});
 }
 
 void MainWindow::pageManager()
 {
-    log(ui->lw_song->verticalScrollBar()->value())
+    //log(ui->lw_song->verticalScrollBar()->value())
     if(ui->lw_song->verticalScrollBar()->value()==0)
     {
         previousPage.myPage=previousReader.getPrevious(currentPage.myPage.get(0)->data.songId);
@@ -64,6 +68,7 @@ void MainWindow::pageManager()
     }
 
 }
+
 
 
 

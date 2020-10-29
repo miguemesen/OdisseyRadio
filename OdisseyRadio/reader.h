@@ -16,8 +16,19 @@ public:
     int localId;
     LinkedList<std::string> myList;
     std::vector<std::string> csvColumn;
-    //std::string path;
-    std::string path2;
+    std::string path;
+
+    void getIp(int id);
+
+    void fillCsvColumn();
+
+    void fillList();
+
+    void assignSongInfo();
+
+    void logMetadata();
+
+    //std::string path2;
     reader();
 };
 
