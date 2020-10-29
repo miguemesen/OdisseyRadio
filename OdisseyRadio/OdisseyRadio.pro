@@ -12,6 +12,7 @@ SOURCES += \
     gettrack.cpp \
     main.cpp \
     mainwindow.cpp \
+    page.cpp \
     reader.cpp \
     readerchecksums.cpp \
     song.cpp
@@ -20,6 +21,7 @@ HEADERS += \
     LinkedList.h \
     gettrack.h \
     mainwindow.h \
+    page.h \
     reader.h \
     readerchecksums.h \
     song.h

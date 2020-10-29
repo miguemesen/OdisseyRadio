@@ -103,13 +103,13 @@ std::string readerChecksums::getSongPath(std::string songString){
 
 
 
-int main(){
-    readerChecksums myReader;
-    std::vector<std::string> xd = myReader.getNext("000182");
-    log(xd[0]);
-    log(xd[1]);
-    log(xd[2]);
-    log(xd[3]);
-    log(xd[4]);
+//int main(){
+//    readerChecksums myReader;
+//    std::vector<std::string> xd = myReader.getNext("000182");
+//    log(xd[0]);
+//    log(xd[1]);
+//    log(xd[2]);
+//    log(xd[3]);
+//    log(xd[4]);
 
-}
+//}
