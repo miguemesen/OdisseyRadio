@@ -17,10 +17,10 @@
    <widget class="QListWidget" name="lw_song">
     <property name="geometry">
      <rect>
-      <x>205</x>
-      <y>50</y>
+      <x>80</x>
+      <y>20</y>
       <width>111</width>
-      <height>111</height>
+      <height>151</height>
      </rect>
     </property>
    </widget>

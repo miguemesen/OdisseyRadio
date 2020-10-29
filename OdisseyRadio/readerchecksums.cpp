@@ -56,7 +56,7 @@ LinkedList<song> readerChecksums::getFirst(){
     std::string line;
     LinkedList<song> myList;
     //std::vector<std::string> myVector(10);
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 12; i++)
     {
         song newSong;
         getline(ip,line,'\n');
@@ -70,20 +70,23 @@ LinkedList<song> readerChecksums::getFirst(){
     // Used to return myVector
 }
 
-LinkedList<std::string> readerChecksums::getPrevious(std::string songId){
+LinkedList<song> readerChecksums::getPrevious(std::string songId){
     std::ifstream ip(::path);
     std::string line;
-    LinkedList<std::string> myList;
+    LinkedList<song> myList;
     //std::vector<std::string> myVector(10);
     int reps = getSongById(songId);
-    for (int i=0; i<reps-11; i++)
+    for (int i=0; i<reps-13; i++)
     {
         getline(ip,line,'\n');
     }
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 12; i++)
     {
+        song newSong;
         getline(ip,line,'\n');
-        myList.addNodo(line);
+        newSong.songId=getSongId(line);
+        newSong.songPath=getSongPath(line);
+        myList.addNodo(newSong);
         //myVector[i]=line;
     }
 
@@ -93,20 +96,23 @@ LinkedList<std::string> readerChecksums::getPrevious(std::string songId){
 
 
 // Gets next 5 lines and returns them in a vector
-LinkedList<std::string> readerChecksums::getNext(std::string songId){
+LinkedList<song> readerChecksums::getNext(std::string songId){
     std::ifstream ip(::path);
     std::string line;
-    LinkedList<std::string> myList;
+    LinkedList<song> myList;
     //std::vector<std::string> myVector(10);
     int reps = getSongById(songId);
     for (int i=0; i<reps; i++)
     {
         getline(ip,line,'\n');
     }
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 12; i++)
     {
+        song newSong;
         getline(ip,line,'\n');
-        myList.addNodo(line);
+        newSong.songId=getSongId(line);
+        newSong.songPath=getSongPath(line);
+        myList.addNodo(newSong);
         //myVector[i]=line;
     }
 

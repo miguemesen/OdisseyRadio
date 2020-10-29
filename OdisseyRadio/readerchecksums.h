@@ -17,9 +17,9 @@ public:
 
     int getSongById(std::string songId);
 
-    LinkedList<std::string> getNext(std::string songId);
+    LinkedList<song> getNext(std::string songId);
 
-    LinkedList<std::string> getPrevious(std::string songId);
+    LinkedList<song> getPrevious(std::string songId);
 
     LinkedList<song> getFirst();
 
