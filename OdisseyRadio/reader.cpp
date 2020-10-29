@@ -18,7 +18,7 @@ string line;
 int localId = 0;
 LinkedList<std::string> myList;
 vector<string> csvColumn;
-string path = "/home/migue/Desktop/fma_metadata/raw_tracks.csv";
+//string path = "/home/migue/Desktop/fma_metadata/raw_tracks.csv";
 std::string path2 = "/home/migue/Desktop/fma_small/checksums";
 
 
@@ -82,7 +82,7 @@ reader::reader()
         songGenre = myList.get(26)->data;
     }
 
-    void logMetadata() const{
+    void logMetadata() {
         std::cout<<"Artist Name: "<<artistName<<std::endl;
         std::cout<<"Song Name: "<<songName<<std::endl;
         std::cout<<"Song Length: "<<songLength<<std::endl;

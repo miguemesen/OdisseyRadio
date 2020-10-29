@@ -9,6 +9,7 @@
 page previousPage;
 page currentPage;
 page nextPage;
+readerChecksums currentReader;
 
 
 
@@ -83,9 +84,15 @@ void MainWindow::pageManager()
 {
     if(ui->lw_song->verticalScrollBar()->value()==0)
     {
-        readerChecksums currentReader;
         previousPage.myPage.removeAll();
         currentPage.myPage=currentReader.getFirst();
+
+
+        //LinkedList<song> mySongs = currentReader.getFirst();
+        for (int i=0; i<10; i++)
+        {
+            std::cout<<"Id: "<<currentPage.myPage.get(i)->data.songId<<", Path: "<<currentPage.myPage.get(i)->data.songPath<<std::endl;
+        }
     }
 }
 

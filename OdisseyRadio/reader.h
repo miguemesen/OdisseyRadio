@@ -16,7 +16,7 @@ public:
     int localId;
     LinkedList<std::string> myList;
     std::vector<std::string> csvColumn;
-    std::string path;
+    //std::string path;
     std::string path2;
     reader();
 };
