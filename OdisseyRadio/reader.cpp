@@ -1,4 +1,5 @@
 #include <iostream>
+#include "reader.h"
 #include <vector>
 #include <string>
 #include <bits/stdc++.h>
@@ -8,21 +9,23 @@
 
 using namespace std;
 
-class reader{
-public:
-    string songName;
-    string artistName;
-    string songLength;
-    string songGenre;
-    string line;
-    int localId = 0;
-    LinkedList<std::string> myList;
-    vector<string> csvColumn;
-    string path = "/home/migue/Desktop/fma_metadata/raw_tracks.csv";
-    std::string path2 = "/home/migue/Desktop/fma_small/checksums";
+
+string songName;
+string artistName;
+string songLength;
+string songGenre;
+string line;
+int localId = 0;
+LinkedList<std::string> myList;
+vector<string> csvColumn;
+string path = "/home/migue/Desktop/fma_metadata/raw_tracks.csv";
+std::string path2 = "/home/migue/Desktop/fma_small/checksums";
 
 
-public:
+reader::reader()
+{
+
+}
 
     void getIp(int id){
         ifstream ip(path2);
@@ -87,7 +90,6 @@ public:
     }
 
 
-};
 
 
 

@@ -17,7 +17,6 @@ public:
 
 private slots:
     void pageManager();
-    void onAction();
 
 private:
     Ui::MainWindow *ui;

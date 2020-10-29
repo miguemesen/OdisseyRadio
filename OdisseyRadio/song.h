@@ -13,6 +13,7 @@ public:
     string songLength;
     string songGenre;
     string songId;
+    string songPath;
     song();
 };
 

@@ -84,17 +84,10 @@ void MainWindow::pageManager()
     if(ui->lw_song->verticalScrollBar()->value()==0)
     {
         previousPage.myPage.removeAll();
-
     }
 }
 
-void MainWindow::onAction()
-{
-    if(ui->lw_song->verticalScrollBar()->value()==7)
-    {
 
-    }
-}
 
 
 MainWindow::~MainWindow()
