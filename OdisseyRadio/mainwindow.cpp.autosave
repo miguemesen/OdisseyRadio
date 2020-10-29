@@ -85,7 +85,7 @@ void MainWindow::pageManager()
     {
         readerChecksums currentReader;
         previousPage.myPage.removeAll();
-        currentPage.myPage=currentReader.getFirst();
+        //currentPage.myPage=currentReader.getFirst();
     }
 }
 

@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "LinkedList.h"
+//#include "song.h"
 
 
 class readerChecksums
@@ -15,9 +17,11 @@ public:
 
     int getSongById(std::string songId);
 
-    std::vector<std::string> getNext(std::string songId);
+    LinkedList<std::string> getNext(std::string songId);
 
-    std::vector<std::string> getPrevious(std::string songId);
+    LinkedList<std::string> getPrevious(std::string songId);
+
+    LinkedList<std::string> getFirst();
 
     std::string getPrevious();
 

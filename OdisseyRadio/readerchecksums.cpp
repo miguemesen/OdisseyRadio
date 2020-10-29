@@ -3,6 +3,7 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include "LinkedList.h"
+//#include "song.h"
 #define log(x) std::cout<<x<<std::endl;
 
 
@@ -29,20 +30,15 @@ int readerChecksums::getSongById(std::string songId){
     int otherId = 0;
     std::stringstream xdd(songId);
     xdd >> otherId;
-    std::cout<<"this is otherId: "<<otherId<<std::endl;
     if (songId=="000000")
         return 0;
     while (true){
         songPos+=1;
-        log(songPos)
         getline(ip,line,'\n');
         std::string temp = getSongId(line);
         std::stringstream xd(temp);
         xd >> localId;
-        log(localId)
         if(localId==otherId){
-            log("logging from if")
-            log(line);
             //log(songPos)
             getline(ip,line,'\n');
             return songPos;
@@ -55,61 +51,83 @@ int readerChecksums::getSongById(std::string songId){
     return songPos;
 }
 
-std::vector<std::string> readerChecksums::getPrevious(std::string songId){
+LinkedList<std::string> readerChecksums::getFirst(){
     std::ifstream ip(::path);
     std::string line;
-    std::vector<std::string> myVector(5);
-    int reps = getSongById(songId);
-    std::cout<<"esto es reps: "<<reps<<std::endl;
-    for (int i=0; i<reps-6; i++)
+    LinkedList<std::string> myList;
+    //std::vector<std::string> myVector(10);
+    for(int i = 0; i < 10; i++)
     {
         getline(ip,line,'\n');
-    }
-    for(int i = 0; i < 5; i++)
-    {
-        getline(ip,line,'\n');
-        myVector[i]=line;
+        myList.addNodo(line);
+        //myVector[i]=line;
     }
 
-    return myVector;
+    return myList;
+    // Used to return myVector
+}
+
+LinkedList<std::string> readerChecksums::getPrevious(std::string songId){
+    std::ifstream ip(::path);
+    std::string line;
+    LinkedList<std::string> myList;
+    //std::vector<std::string> myVector(10);
+    int reps = getSongById(songId);
+    for (int i=0; i<reps-11; i++)
+    {
+        getline(ip,line,'\n');
+    }
+    for(int i = 0; i < 10; i++)
+    {
+        getline(ip,line,'\n');
+        myList.addNodo(line);
+        //myVector[i]=line;
+    }
+
+    return myList;
+    // Used to return myVector
 }
 
 
 // Gets next 5 lines and returns them in a vector
-std::vector<std::string> readerChecksums::getNext(std::string songId){
+LinkedList<std::string> readerChecksums::getNext(std::string songId){
     std::ifstream ip(::path);
     std::string line;
-    std::vector<std::string> myVector(5);
+    LinkedList<std::string> myList;
+    //std::vector<std::string> myVector(10);
     int reps = getSongById(songId);
-    log(line);
     for (int i=0; i<reps; i++)
     {
         getline(ip,line,'\n');
     }
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 10; i++)
     {
         getline(ip,line,'\n');
-        myVector[i]=line;
+        myList.addNodo(line);
+        //myVector[i]=line;
     }
 
-    return myVector;
+    return myList;
+    // Used to return myVector
 }
 
 std::string readerChecksums::getSongPath(std::string songString){
-    return songString.erase(0,42);
+    std::string myPath = "/home/migue/Desktop/fma_small/";
+    myPath+=songString.erase(0,42);
+    return myPath;
 }
 
 
 
 
 
-//int main(){
-//    readerChecksums myReader;
-//    std::vector<std::string> xd = myReader.getNext("000182");
-//    log(xd[0]);
-//    log(xd[1]);
-//    log(xd[2]);
-//    log(xd[3]);
-//    log(xd[4]);
-
-//}
+int main(){
+    readerChecksums myReader;
+    LinkedList<std::string> newList = myReader.getNext("000005");
+    for (int i = 0; i<10; i++)
+    {
+        log(newList.get(i)->data)
+    }
+    std::cout<<"this is song path: "<<myReader.getSongPath(newList.get(3)->data)<<std::endl;
+    std::cout<<"this is song Id: "<<myReader.getSongId(newList.get(3)->data)<<std::endl;
+}
