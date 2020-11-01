@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "QListWidgetItem"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +18,8 @@ public:
 
 private slots:
     void pageManager();
+    void artistManager();
+    void artistPressed(QListWidgetItem myItem);
 private:
     Ui::MainWindow *ui;
 

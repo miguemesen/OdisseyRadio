@@ -1,13 +1,14 @@
 #pragma once
 #include "LinkedList.h"
 #include "song.h"
+#include "QListWidgetItem"
 
-class artist
+class artist : public QListWidgetItem
 {
 public:
 public:
     LinkedList<song> *songs;
-    std::string *artistName;
+    QString *artistName;
     artist();
 };
 

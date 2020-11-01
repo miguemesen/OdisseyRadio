@@ -26,10 +26,10 @@ void page::something(){
     myPage.addNodo(song4);
     myPage.addNodo(song5);
 
-    for(int i=0; i<5; i++)
-    {
-        log(myPage.get(i)->data.artistName)
-    }
+//    for(int i=0; i<5; i++)
+//    {
+//        log(myPage.get(i)->data.artistName)
+//    }
 
     LinkedList<song> otherList;
 
@@ -37,11 +37,11 @@ void page::something(){
 
     otherList=myPage;
 
-    for(int i=0; i<5; i++)
-    {
-        log(otherList.get(i)->data.artistName)
-    }
-    myPage.removeAll();
+//    for(int i=0; i<5; i++)
+//    {
+//        log(otherList.get(i)->data.artistName)
+//    }
+//    myPage.removeAll();
 
 }
 

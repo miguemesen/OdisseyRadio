@@ -9,16 +9,7 @@
 #include "artist.h"
 #define log(x) std::cout<<x<<std::endl;
 
-//page previousPage;
-//page currentPage;
-//page nextPage;
-//readerChecksums currentReader;
-//readerChecksums nextReader;
-//readerChecksums previousReader;
 fetchArtists myArtistFetcher;
-
-
-
 /**
   Starts app and runs it in an event
  * @brief MainWindow::MainWindow
@@ -36,32 +27,14 @@ MainWindow::MainWindow(QWidget *parent)
     myArtistList = myArtistFetcher.getArtists(1592);
 
     std::string utf8_text = myArtistList.get(9)->data.songs->get(6)->data.songName.toUtf8().constData();
-    log(utf8_text)
+    log(utf8_text);
 
-//    for (int i=0; i<10; i++)
-//    {
-//        log(*myArtistList.get(i)->data.artistName)
-//    }
-
-//    currentPage.myPage=currentReader.getFirst();
-//    nextPage.myPage=nextReader.getNext(currentPage.myPage.get(11)->data.songId);
-
-//    for (int i=0; i<12; i++) {
-//        song *mySong = &nextPage.myPage.get(i)->data;
-//        mySong->songName="j";
-//        ui->lw_song->insertItem(i,mySong);
-//        mySong->setText(mySong->songName);
-//    }
+    artistManager();
 
 
-//    for (int i=0; i<12; i++)
-//    {
-//        song *mySong = &currentPage.myPage.get(i)->data;
-//        mySong->songName="i";
-//        ui->lw_song->insertItem(i,mySong);
-//        mySong->setText(mySong->songName);
-//    }
 
+//    QScrollBar* myScroll2 = ui->lw_artists->verticalScrollBar();
+//    connect(myScroll2,&QScrollBar::valueChanged,[&]{pageManager();});
 
 //    QScrollBar* myScroll = ui->lw_song->verticalScrollBar();
 //    connect(myScroll,&QScrollBar::valueChanged,[&]{pageManager();});
@@ -69,23 +42,23 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::pageManager()
 {
-    //log(ui->lw_song->verticalScrollBar()->value())
-//    if(ui->lw_song->verticalScrollBar()->value()==0)
-//    {
-//        previousPage.myPage=previousReader.getPrevious(currentPage.myPage.get(0)->data.songId);
-//        currentPage.myPage=currentReader.getFirst();
-//        nextPage.myPage=nextReader.getNext(currentPage.myPage.get(11)->data.songId);
-//    }
-//    if (ui->lw_song->verticalScrollBar()->value()==12)
-//    {
-//        previousPage.myPage=currentPage.myPage;
-//        currentPage.myPage=nextPage.myPage;
-//        nextPage.myPage=nextReader.getNext(currentPage.myPage.get(11)->data.songId);
-//    }
+
+}
+
+void MainWindow::artistPressed(QListWidgetItem myItem)
+{
 
 }
 
 
+void MainWindow::artistManager()
+{
+    LinkedList<artist> myList = myArtistFetcher.getArtists(1592);
+    for (int i=0; i<10; i++)
+    {
+        ui->lw_artists->addItem(*myList.get(i)->data.artistName);
+    }
+}
 
 
 

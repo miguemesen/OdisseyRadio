@@ -9,7 +9,7 @@ class song : public QListWidgetItem
 {
 public:
     QString songName;
-    string artistName;
+    QString artistName;
     string songLength;
     string songGenre;
     string songId;
