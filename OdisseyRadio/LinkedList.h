@@ -63,6 +63,7 @@ public:
 
     void addNodo(T data){
         //std::cout << data << "\n";
+        //std::cout << "Head Linked List " << &head << "\n";
         if(head== nullptr){
             head =  new Nodo<T>(data);
             size++;

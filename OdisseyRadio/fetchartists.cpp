@@ -3,68 +3,73 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #define log(x) std::cout<<x<<std::endl;
-#include "reader.h"
-#include "readerchecksums.h"
+#include "csvparse.h"
+#include "artist.h"
+#include "song.h"
 
-std::string myPath = "/home/migue/Desktop/fma_small/checksums";
-reader myReader;
-readerChecksums myReaderCh;
+std::string myPath = "/home/migue/Desktop/fma_metadata/raw_artists.csv";
 
 fetchArtists::fetchArtists()
 {
 
 }
 
-bool fetchArtists::exist(std::string artistName, LinkedList<std::string> list)
+
+LinkedList<artist> fetchArtists::getArtists(int position)
 {
-    for (int i=0; i<list.getSize(); i++)
+    int artistCount = 0;
+    LinkedList<artist> artists;
+    std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks2.csv");
+    std::vector<std::vector<std::string>> parsedCsv;
+    csvparse myParse;
+    parsedCsv = myParse.readCSV(ip);
+    std::string temp="";
+
+    while (artistCount<11)
     {
-        if (list.isEmpty())
-            return false;
-        if (list.get(i)->data==artistName)
-            return true;
-    }
-    return false;
-}
-
-
-LinkedList<std::string> fetchArtists::getArtists()
-{
-    LinkedList<std::string> myArtists;
-    std::ifstream ip1(::myPath);
-    std::string line1;
-    for (int i=0; i < 8000; i++)
-    {
-        getline(ip1,line1,'\n');
-        std::string tempId = myReaderCh.getSongId(line1);
-        stringstream temp(tempId);
-        int tempIdInt = 0;
-        temp >> tempIdInt;
-        myReader.getIp(tempIdInt);
-        myReader.fillCsvColumn();
-        myReader.fillList();
-        myReader.assignSongInfo();
-        std::string tempArtist = myReader.artistName;
-
-        if (!exist(tempArtist,myArtists))
+        if (temp=="")
         {
-            myArtists.addNodo(tempArtist);
+            song *mySong = new song();
+            mySong->artistName = parsedCsv[position][5];
+            QString qstr = QString::fromStdString(parsedCsv[position][37]);
+            mySong->songName = qstr;
+            artist *myArtist = new artist();
+            myArtist->artistName = &mySong->artistName;
+            //log(*myArtist->artistName)
+            myArtist->songs->addNodo(*mySong);
+            artists.addNodo(*myArtist);
+            artistCount+=1;
+            position+=1;
+            temp=mySong->artistName;
+//            std::string utf8_text = mySong->songName.toUtf8().constData();
+//            log(utf8_text)
         }
-    }
 
-    return myArtists;
+        while (temp==parsedCsv[position][5])
+        {
+            song *mySong = new song;
+            mySong->artistName = parsedCsv[position][5];
+            QString qstr = QString::fromStdString(parsedCsv[position][37]);
+            mySong->songName = qstr;
+            artists.get(artistCount-1)->data.songs->addNodo(*mySong);
+            temp=mySong->artistName;
+            position+=1;
+//            std::string utf8_text = mySong->songName.toUtf8().constData();
+//            log(utf8_text)
+        }
+        //log(temp)
+        temp="";
+    }
+    return artists;
 }
 
 //int main()
 //{
-//    log("hola")
-//    LinkedList<std::string> myList;
-//    myList.addNodo("Miguel");
-//    myList.addNodo("Pedro");
-//    myList.addNodo("Ericka");
-//    myList.addNodo("Allan");
-//    log(myList.getSize())
-//    fetchArtists myFetcher;
-//    myFetcher.exist("Pedro",myList);
+//    std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks2.csv");
+//    std::vector<std::vector<std::string>> parsedCsv;
+//    csvparse myParse;
+//    parsedCsv = myParse.readCSV(ip);
+//    log(parsedCsv[1592][5])
 //}
+
 

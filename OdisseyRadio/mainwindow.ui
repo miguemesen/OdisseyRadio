@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
-    <height>332</height>
+    <width>718</width>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,18 +17,18 @@
    <widget class="QListWidget" name="lw_song">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>250</x>
       <y>20</y>
-      <width>111</width>
-      <height>151</height>
+      <width>421</width>
+      <height>211</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>250</y>
+      <x>390</x>
+      <y>360</y>
       <width>89</width>
       <height>25</height>
      </rect>
@@ -37,16 +37,45 @@
      <string>Play</string>
     </property>
    </widget>
+   <widget class="QListWidget" name="lw_artists">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>171</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QSlider" name="horizontalSlider">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>330</y>
+      <width>391</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>348</width>
+     <width>718</width>
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuOdisseyRadio">
+    <property name="title">
+     <string>OdisseyRadio</string>
+    </property>
+   </widget>
+   <addaction name="menuOdisseyRadio"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

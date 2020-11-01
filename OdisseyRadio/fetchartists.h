@@ -1,12 +1,13 @@
 #pragma once
 #include <string>
 #include "LinkedList.h"
+#include "artist.h"
 
 class fetchArtists
 {
 public:
 
-    LinkedList<std::string> getArtists();
+    LinkedList<artist> getArtists(int position);
 
     //std::string path;
 

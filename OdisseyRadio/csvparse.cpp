@@ -4,15 +4,32 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include <vector>
+#include "csvparse.h"
 #define log(x) std::cout<<x<<std::endl;
 
+/**
+ * @brief The CSVState enum
+ */
 enum class CSVState {
     UnquotedField,
     QuotedField,
     QuotedQuote
 };
 
-std::vector<std::string> readCSVRow(const std::string &row) {
+
+csvparse::csvparse()
+{
+
+}
+
+/**
+  Reads a row and returns it as an element in a vector
+ * @brief readCSVRow
+ * @param row
+ * @return
+ */
+
+std::vector<std::string> csvparse::readCSVRow(const std::string &row) {
     CSVState state = CSVState::UnquotedField;
     std::vector<std::string> fields {""};
     size_t i = 0; // index of the current field
@@ -54,8 +71,15 @@ std::vector<std::string> readCSVRow(const std::string &row) {
     return fields;
 }
 
-/// Read CSV file, Excel dialect. Accept "quoted fields ""with quotes"""
-std::vector<std::vector<std::string>> readCSV(std::istream &in) {
+
+/**
+  Read CSV file, Excel dialect. Accept "quoted fields ""with quotes"""
+ * @brief readCSV
+ * @param in
+ * @return CSV file in form of a matrix
+ */
+
+std::vector<std::vector<std::string>> csvparse::readCSV(std::istream &in) {
     std::vector<std::vector<std::string>> table;
     std::string row;
     while (!in.eof()) {
@@ -69,10 +93,33 @@ std::vector<std::vector<std::string>> readCSV(std::istream &in) {
     return table;
 }
 
-int main()
-{
-    std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks.csv");
-    std::vector<std::vector<std::string>> xd;
-    xd = readCSV(ip);
-    log(xd[0][5])
-}
+
+
+//int main()
+//{
+//    std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks2.csv");
+//    std::vector<std::vector<std::string>> parsedCsv;
+//    csvparse myParse;
+//    parsedCsv = myParse.readCSV(ip);
+//    log(parsedCsv[1592][5]);
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
