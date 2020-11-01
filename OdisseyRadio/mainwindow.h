@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "QListWidgetItem"
+#include "artist.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,7 +20,7 @@ public:
 private slots:
     void pageManager();
     void artistManager();
-    void artistPressed(QListWidgetItem myItem);
+    void artistPressed(QListWidgetItem* myItem);
 private:
     Ui::MainWindow *ui;
 

@@ -27,10 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
     myArtistList = myArtistFetcher.getArtists(1592);
 
     std::string utf8_text = myArtistList.get(9)->data.songs->get(6)->data.songName.toUtf8().constData();
-    log(utf8_text);
 
     artistManager();
 
+    connect(ui->lw_artists,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(artistPressed(QListWidgetItem*)));
 
 
 //    QScrollBar* myScroll2 = ui->lw_artists->verticalScrollBar();
@@ -45,8 +45,16 @@ void MainWindow::pageManager()
 
 }
 
-void MainWindow::artistPressed(QListWidgetItem myItem)
+void MainWindow::artistPressed(QListWidgetItem* myItem)
 {
+    artist* art = static_cast<artist*>(myItem);
+    LinkedList<song> myList = *art->songs;
+
+    for (int i=0; i<myList.getSize();i++)
+    {
+        myList.get(i)->data.setText(myList.get(i)->data.songName);
+        ui->lw_song->insertItem(i,&myList.get(i)->data);
+    }
 
 }
 
@@ -56,7 +64,8 @@ void MainWindow::artistManager()
     LinkedList<artist> myList = myArtistFetcher.getArtists(1592);
     for (int i=0; i<10; i++)
     {
-        ui->lw_artists->addItem(*myList.get(i)->data.artistName);
+        myList.get(i)->data.setText(*myList.get(i)->data.artistName);
+        ui->lw_artists->insertItem(i,&myList.get(i)->data);
     }
 }
 
