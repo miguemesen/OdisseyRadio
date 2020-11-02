@@ -60,8 +60,8 @@ LinkedList<song> readerChecksums::getFirst(){
     {
         song newSong;
         getline(ip,line,'\n');
-        newSong.songId=getSongId(line);
-        newSong.songPath=getSongPath(line);
+//        newSong.songId=getSongId(line);
+//        newSong.songPath=getSongPath(line);
         myList.addNodo(newSong);
         //myVector[i]=line;
     }
@@ -84,8 +84,8 @@ LinkedList<song> readerChecksums::getPrevious(std::string songId){
     {
         song newSong;
         getline(ip,line,'\n');
-        newSong.songId=getSongId(line);
-        newSong.songPath=getSongPath(line);
+//        newSong.songId=getSongId(line);
+//        newSong.songPath=getSongPath(line);
         myList.addNodo(newSong);
         //myVector[i]=line;
     }
@@ -110,8 +110,8 @@ LinkedList<song> readerChecksums::getNext(std::string songId){
     {
         song newSong;
         getline(ip,line,'\n');
-        newSong.songId=getSongId(line);
-        newSong.songPath=getSongPath(line);
+//        newSong.songId=getSongId(line);
+//        newSong.songPath=getSongPath(line);
         myList.addNodo(newSong);
         //myVector[i]=line;
     }

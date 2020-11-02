@@ -23,10 +23,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->lw_song->verticalScrollBar()->setMaximum(23);
 
-    LinkedList<artist> myArtistList;
-    myArtistList = myArtistFetcher.getArtists(1592);
+//    LinkedList<artist> myArtistList;
+//    myArtistList = myArtistFetcher.getArtists(1592);
 
-    std::string utf8_text = myArtistList.get(9)->data.songs->get(6)->data.songName.toUtf8().constData();
+//    std::string utf8_text = myArtistList.get(9)->data.songs->get(6)->data.songName.toUtf8().constData();
 
     artistManager();
 
@@ -47,21 +47,28 @@ void MainWindow::pageManager()
 
 void MainWindow::artistPressed(QListWidgetItem* myItem)
 {
+    ui->lw_song->clear();
     artist* art = static_cast<artist*>(myItem);
-    LinkedList<song> myList = *art->songs;
+    LinkedList<song>* myList = new LinkedList<song>;
+    myList =art->songs;
 
-    for (int i=0; i<myList.getSize();i++)
+    for (int i=0; i<myList->getSize();i++)
     {
-        myList.get(i)->data.setText(myList.get(i)->data.songName);
-        ui->lw_song->insertItem(i,&myList.get(i)->data);
-    }
+        QString *myQString = new QString;
+        myQString = &myList->get(i)->data.songName;
 
+        myList->get(i)->data.setText(*myQString);
+        ui->lw_song->insertItem(i,&myList->get(i)->data);
+    }
 }
 
 
 void MainWindow::artistManager()
 {
+
     LinkedList<artist> myList = myArtistFetcher.getArtists(1592);
+//    LinkedList<artist>* myList = new LinkedList<artist>;
+//    myList = &myArtistFetcher.getArtists(1592);
     for (int i=0; i<10; i++)
     {
         myList.get(i)->data.setText(*myList.get(i)->data.artistName);
