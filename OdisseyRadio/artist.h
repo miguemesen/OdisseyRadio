@@ -7,7 +7,7 @@ class artist : public QListWidgetItem
 {
 public:
     LinkedList<song> *songs;
-    QString *artistName;
+    string artistName;
     artist();
 };
 

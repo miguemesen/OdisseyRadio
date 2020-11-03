@@ -30,8 +30,8 @@ void fetchArtists::getArtists(int position)
         {
             song *mySong = new song();
 
-            QString qstr2 = QString::fromStdString(parsedCsv[position][5]);
-            mySong->artistName = qstr2;
+
+            mySong->artistName = parsedCsv[position][5];
 
             mySong->songLength = parsedCsv[position][21];
 
@@ -39,11 +39,10 @@ void fetchArtists::getArtists(int position)
             printf("Esta es el id de las canciones,  %d \n", mySong->songId);
 
             std::string artistName2 = parsedCsv[position][5];
-            QString qstr = QString::fromStdString(parsedCsv[position][37]);
-            mySong->songName = qstr;
+            mySong->songName = parsedCsv[position][37];
 
             artist *myArtist = new artist();
-            myArtist->artistName = &mySong->artistName;
+            myArtist->artistName = mySong->artistName;
             //log(*myArtist->artistName)
             myArtist->songs->addNodo(*mySong);
             artists->addNodo(*myArtist);
@@ -51,17 +50,15 @@ void fetchArtists::getArtists(int position)
             artistCount+=1;
             position+=1;
 
-            std::string utf8_text = mySong->artistName.toUtf8().constData();
-            temp=utf8_text;
+
+            temp= mySong->artistName;
         }
 
         while (temp==parsedCsv[position][5])
         {
             song *mySong = new song;
-            QString qstr2 = QString::fromStdString(parsedCsv[position][5]);
-            mySong->artistName = qstr2;
-            QString qstr = QString::fromStdString(parsedCsv[position][37]);
-            mySong->songName = qstr;
+            mySong->artistName = parsedCsv[position][5];
+            mySong->songName = parsedCsv[position][37];
             //artists->get(artistCount-1)->data.songs->addNodo(*mySong);
             mySong->songId = stoi(parsedCsv[position][0]);
 
@@ -75,8 +72,8 @@ void fetchArtists::getArtists(int position)
 
             printf("Esta es el id de las canciones,  %d \n", mySong->songId);
 
-            std::string utf8_text = mySong->artistName.toUtf8().constData();
-            temp=utf8_text;
+
+            temp= mySong->artistName;
             position+=1;
 //            std::string utf8_text = mySong->songName.toUtf8().constData();
 //            log(utf8_text)

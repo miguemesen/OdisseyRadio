@@ -5,5 +5,4 @@
 artist::artist()
 {
     songs = new LinkedList<song>();
-    artistName = new QString;
 }

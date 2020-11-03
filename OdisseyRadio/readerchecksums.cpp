@@ -4,6 +4,7 @@
 #include <bits/stdc++.h>
 #include "LinkedList.h"
 #include "song.h"
+#include <QMessageBox>
 #define log(x) std::cout<<x<<std::endl;
 
 
@@ -44,8 +45,7 @@ int readerChecksums::getSongById(std::string songId){
             return songPos;
         }
         else if (localId > otherId){
-            log("No existe esta pieza")
-            break;
+            return -1;
         }
     }
     return songPos;
@@ -100,6 +100,8 @@ std::string readerChecksums::getSongPathById(std::string id)
     std::ifstream ip(::path);
     std::string line;
     int reps = getSongById(id);
+
+    if(reps == -1){return "";}
     for (int i=0; i<reps; i++)
     {
         getline(ip,line,'\n');
