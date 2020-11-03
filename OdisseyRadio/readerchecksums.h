@@ -13,6 +13,8 @@ public:
 
     readerChecksums();
 
+    std::string getSongPathById(std::string id);
+
     std::string getString(std::string line);
 
     int getSongById(std::string songId);

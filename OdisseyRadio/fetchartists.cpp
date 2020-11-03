@@ -14,18 +14,17 @@ fetchArtists::fetchArtists()
 
 }
 
-
-LinkedList<artist> fetchArtists::getArtists(int position)
+void fetchArtists::getArtists(int position)
 {
     int artistCount = 0;
-    LinkedList<artist> artists;
+    LinkedList<artist>* artists = new LinkedList<artist>;
     std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks2.csv");
     std::vector<std::vector<std::string>> parsedCsv;
     csvparse myParse;
     parsedCsv = myParse.readCSV(ip);
     std::string temp="";
 
-    while (artistCount<11)
+    while (artist_list.size()<11)
     {
         if (temp=="")
         {
@@ -36,8 +35,10 @@ LinkedList<artist> fetchArtists::getArtists(int position)
 
             mySong->songLength = parsedCsv[position][21];
 
-            mySong->songId = parsedCsv[position][0];
+            mySong->songId = stoi(parsedCsv[position][0]);
+            printf("Esta es el id de las canciones,  %d \n", mySong->songId);
 
+            std::string artistName2 = parsedCsv[position][5];
             QString qstr = QString::fromStdString(parsedCsv[position][37]);
             mySong->songName = qstr;
 
@@ -45,7 +46,8 @@ LinkedList<artist> fetchArtists::getArtists(int position)
             myArtist->artistName = &mySong->artistName;
             //log(*myArtist->artistName)
             myArtist->songs->addNodo(*mySong);
-            artists.addNodo(*myArtist);
+            artists->addNodo(*myArtist);
+            artist_list[artistName2] = myArtist;
             artistCount+=1;
             position+=1;
 
@@ -60,7 +62,18 @@ LinkedList<artist> fetchArtists::getArtists(int position)
             mySong->artistName = qstr2;
             QString qstr = QString::fromStdString(parsedCsv[position][37]);
             mySong->songName = qstr;
-            artists.get(artistCount-1)->data.songs->addNodo(*mySong);
+            //artists->get(artistCount-1)->data.songs->addNodo(*mySong);
+            mySong->songId = stoi(parsedCsv[position][0]);
+
+            //------------------------------------------------------
+
+            artist_list[temp]->songs->addNodo(*mySong);
+
+            //------------------------------------------------------
+
+
+
+            printf("Esta es el id de las canciones,  %d \n", mySong->songId);
 
             std::string utf8_text = mySong->artistName.toUtf8().constData();
             temp=utf8_text;
@@ -71,7 +84,6 @@ LinkedList<artist> fetchArtists::getArtists(int position)
         //log(temp)
         temp="";
     }
-    return artists;
 }
 
 

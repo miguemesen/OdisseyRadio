@@ -15,12 +15,15 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    std::string current_artist;
+    std::string current_songName;
     ~MainWindow();
 
 private slots:
     void pageManager();
     void artistManager();
     void artistPressed(QListWidgetItem* myItem);
+    void playPressed();
 private:
     Ui::MainWindow *ui;
 

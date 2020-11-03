@@ -95,6 +95,20 @@ LinkedList<song> readerChecksums::getPrevious(std::string songId){
 }
 
 
+std::string readerChecksums::getSongPathById(std::string id)
+{
+    std::ifstream ip(::path);
+    std::string line;
+    int reps = getSongById(id);
+    for (int i=0; i<reps; i++)
+    {
+        getline(ip,line,'\n');
+    }
+    //getline(ip,line,'\n');
+    return getSongPath(line);
+}
+
+
 // Gets next 5 lines and returns them in a vector
 LinkedList<song> readerChecksums::getNext(std::string songId){
     std::ifstream ip(::path);

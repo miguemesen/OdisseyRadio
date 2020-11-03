@@ -12,7 +12,7 @@ public:
     QString artistName;
     string songLength;
     string songGenre;
-    string songId;
+    int songId;
     string songPath;
     song();
 };

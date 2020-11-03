@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,7 +12,7 @@ SOURCES += \
     artist.cpp \
     csvparse.cpp \
     fetchartists.cpp \
-    gettrack.cpp \
+    loadtrack.cpp \
     main.cpp \
     mainwindow.cpp \
     page.cpp \
@@ -25,7 +25,7 @@ HEADERS += \
     artist.h \
     csvparse.h \
     fetchartists.h \
-    gettrack.h \
+    loadtrack.h \
     mainwindow.h \
     page.h \
     reader.h \
