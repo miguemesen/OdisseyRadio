@@ -41,11 +41,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    QScrollBar* myScroll = ui->lw_song->verticalScrollBar();
 //    connect(myScroll,&QScrollBar::valueChanged,[&]{pageManager();});
+
 }
 
 void MainWindow::pageManager()
 {
-    log(ui->lw_artists->verticalScrollBar()->value())
+    log(ui->lw_artists->verticalScrollBar()->value());
 //    if (ui->lw_artists->verticalScrollBar()->value() == 3)
 //    {
 //        log("Max")
