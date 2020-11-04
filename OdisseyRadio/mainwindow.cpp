@@ -36,10 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn_play,SIGNAL(clicked()),this,SLOT(playPressed()));
 
-
-
-//    QScrollBar* myScroll2 = ui->lw_artists->verticalScrollBar();
-//    connect(myScroll2,&QScrollBar::valueChanged,[&]{pageManager();});
+    QScrollBar* myScroll2 = ui->lw_artists->verticalScrollBar();
+    connect(myScroll2,&QScrollBar::valueChanged,[&]{pageManager();});
 
 //    QScrollBar* myScroll = ui->lw_song->verticalScrollBar();
 //    connect(myScroll,&QScrollBar::valueChanged,[&]{pageManager();});
@@ -47,9 +45,26 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::pageManager()
 {
+    log(ui->lw_artists->verticalScrollBar()->value())
+//    if (ui->lw_artists->verticalScrollBar()->value() == 3)
+//    {
+//        log("Max")
+//    }
+//    if (ui->lw_artists->verticalScrollBar()->value() == 0)
+//    {
+//        log("Min")
+//    }
+}
 
-
-
+void MainWindow::artistManager()
+{
+    myArtistFetcher->getArtists(::position);
+    int index = 0;
+    for(std::map<std::string,artist*>::iterator it= myArtistFetcher->artist_list.begin(); it != myArtistFetcher->artist_list.end(); it++)
+    {
+        ui->lw_artists->insertItem(index, QString::fromStdString(it->second->artistName));
+        index++;
+    }
 }
 
 void MainWindow::artistPressed(QListWidgetItem* myItem)
@@ -66,18 +81,10 @@ void MainWindow::artistPressed(QListWidgetItem* myItem)
 
 void MainWindow::playPressed()
 {
-
-
-
-
-
-
-     current_songName = ui->lw_song->currentItem()->text().toUtf8().constData();
+    current_songName = ui->lw_song->currentItem()->text().toUtf8().constData();
 
 
     LinkedList<song>* song_list = myArtistFetcher->artist_list[current_artist]->songs;
-
-
 
     song current_song;
     for(int i=0; i < song_list->getSize(); i++){
@@ -85,12 +92,9 @@ void MainWindow::playPressed()
         std::string songName = current.artistName;
             current_song = current;
             if(strcmp(current_songName.c_str(), current.songName.c_str()) == 0){
-            log(current_song.songName);
-            log(current_songName);
             break;
         }
     }
-
 
     std::string id = std::to_string(current_song.songId);
     std::string path = myRC.getSongPathById(id);
@@ -103,45 +107,14 @@ void MainWindow::playPressed()
 
     log(path);
     LoadTrack().playMusic(path);
-
-
-
 }
-
 
 void MainWindow::alert(std::string alertMessage)
 {
-    log("ENTRAAA");
     QMessageBox reply;
     reply.setText(QString::fromStdString(alertMessage));
     reply.exec();
 }
-
-
-void MainWindow::artistManager()
-{
-
-    //LinkedList<artist> myList = myArtistFetcher.getArtists(1592); cuando fetchartist no devolvia un puntero
-    //LinkedList<artist>* myList = new LinkedList<artist>;
-
-    myArtistFetcher->getArtists(::position);
-
-    for (int i=0; i<10; i++)
-    {
-        //myList->get(i)->data.setText(*myList->get(i)->data.artistName);
-        //ui->lw_artists->insertItem(i,&myList->get(i)->data);
-    }
-
-
-    int index = 0;
-    for(std::map<std::string,artist*>::iterator it= myArtistFetcher->artist_list.begin(); it != myArtistFetcher->artist_list.end(); it++)
-    {
-        //it->second->setText(*it->second->artistName);
-        ui->lw_artists->insertItem(index, QString::fromStdString(it->second->artistName));
-        index++;
-    }
-}
-
 
 
 MainWindow::~MainWindow()

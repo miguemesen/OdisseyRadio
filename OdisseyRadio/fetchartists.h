@@ -11,6 +11,9 @@ public:
 
     void getArtists(int position);
 
+    void getPreviousArtist(int position);
+
+    void getNextArtists(int position);
 
     std::map<std::string, artist*> artist_list;
 
