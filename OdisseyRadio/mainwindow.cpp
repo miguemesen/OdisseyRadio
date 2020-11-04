@@ -18,7 +18,11 @@
 
 readerChecksums myRC;
 fetchArtists* myArtistFetcher = new fetchArtists();
-int position = 1592;
+fetchArtists* nextArtistFetcher = new fetchArtists();
+fetchArtists* previousArtistFetcher = new fetchArtists();
+int position;
+int finalPositionX;
+int firstPosition;
 /**
   Starts app and runs it in an event
  * @brief MainWindow::MainWindow
@@ -35,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->lw_artists,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(artistPressed(QListWidgetItem*)));
 
     connect(ui->btn_play,SIGNAL(clicked()),this,SLOT(playPressed()));
+
+    connect(ui->btn_next,SIGNAL(clicked()),this,SLOT(nextArtistPage()));
+
+    connect(ui->btn_previous,SIGNAL(clicked()),this,SLOT(previousArtistPage()));
 
     QScrollBar* myScroll2 = ui->lw_artists->verticalScrollBar();
     connect(myScroll2,&QScrollBar::valueChanged,[&]{pageManager();});
@@ -57,15 +65,58 @@ void MainWindow::pageManager()
 //    }
 }
 
-void MainWindow::artistManager()
+void MainWindow::previousArtistPage()
 {
-    myArtistFetcher->getArtists(::position);
+    ui->lw_artists->clear();
+    std::cout<<"Esta es la posicion que le entra a previousArtistFetcher: "<<position<<std::endl;
+    previousArtistFetcher->artist_list.clear();
+    previousArtistFetcher->getPreviousArtist(firstPosition);
+    myArtistFetcher->artist_list.clear();
+    myArtistFetcher->artist_list = previousArtistFetcher->artist_list;
     int index = 0;
     for(std::map<std::string,artist*>::iterator it= myArtistFetcher->artist_list.begin(); it != myArtistFetcher->artist_list.end(); it++)
     {
         ui->lw_artists->insertItem(index, QString::fromStdString(it->second->artistName));
         index++;
     }
+    firstPosition = previousArtistFetcher->firstPosition;
+    finalPositionX = previousArtistFetcher->finalPosition;
+    std::cout<<"Esto es position cuando sale de la funcion: "<<position<<std::endl;
+}
+
+void MainWindow::nextArtistPage()
+{
+    ui->lw_artists->clear();
+    std::cout<<"Esta es la posicion que le entra a nextArtistFetcher: "<<finalPositionX<<std::endl;
+    nextArtistFetcher->artist_list.clear();
+    nextArtistFetcher->getArtists(finalPositionX);
+    myArtistFetcher->artist_list.clear();
+    myArtistFetcher->artist_list = nextArtistFetcher->artist_list;
+    //myArtistFetcher->finalPosition = otherArtistFetcher->finalPosition;
+    int index = 0;
+    for(std::map<std::string,artist*>::iterator it= myArtistFetcher->artist_list.begin(); it != myArtistFetcher->artist_list.end(); it++)
+    {
+        ui->lw_artists->insertItem(index, QString::fromStdString(it->second->artistName));
+        index++;
+    }
+    firstPosition = nextArtistFetcher->firstPosition;
+    finalPositionX = nextArtistFetcher->finalPosition;
+    std::cout<<"Esto es position cuando sale de la funcion: "<<position<<std::endl;
+}
+
+void MainWindow::artistManager()
+{
+    myArtistFetcher->getArtists(1592);
+    int index = 0;
+    for(std::map<std::string,artist*>::iterator it= myArtistFetcher->artist_list.begin(); it != myArtistFetcher->artist_list.end(); it++)
+    {
+        ui->lw_artists->insertItem(index, QString::fromStdString(it->second->artistName));
+        index++;
+    }
+    //position=myArtistFetcher->finalPosition;
+    firstPosition = myArtistFetcher->firstPosition;
+    finalPositionX = myArtistFetcher->finalPosition;
+    std::cout<<"Final position cuando sale de artistManager: "<<myArtistFetcher->finalPosition<<std::endl;
 }
 
 void MainWindow::artistPressed(QListWidgetItem* myItem)
@@ -74,7 +125,6 @@ void MainWindow::artistPressed(QListWidgetItem* myItem)
     current_artist = myItem->text().toUtf8().constData();
     for(int i=0; i< myArtistFetcher->artist_list[current_artist]->songs->getSize(); i++)
     {
-
         song currentSong = myArtistFetcher->artist_list[current_artist]->songs->get(i)->data;
         ui->lw_song->insertItem(i, QString::fromStdString(currentSong.songName));
     }

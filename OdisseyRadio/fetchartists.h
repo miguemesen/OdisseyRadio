@@ -7,7 +7,9 @@
 class fetchArtists
 {
 public:
+    int finalPosition;
 
+    int firstPosition;
 
     void getArtists(int position);
 

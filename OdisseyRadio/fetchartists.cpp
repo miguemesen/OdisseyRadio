@@ -8,6 +8,8 @@
 #include "song.h"
 
 std::string myPath = "/home/migue/Desktop/fma_metadata/raw_artists.csv";
+//int finalPosition;
+//int firstPosition=1592;
 
 fetchArtists::fetchArtists()
 {
@@ -16,13 +18,14 @@ fetchArtists::fetchArtists()
 
 void fetchArtists::getPreviousArtist(int position)
 {
+    finalPosition = position;
     int newPosition = position-1;
         std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks2.csv");
         std::vector<std::vector<std::string>> parsedCsv;
         csvparse myParse;
         parsedCsv = myParse.readCSV(ip);
         std::string temp="";
-        while (artist_list.size()!=10)
+        while (artist_list.size()!=5)
         {
             if (temp=="")
             {
@@ -54,6 +57,7 @@ void fetchArtists::getPreviousArtist(int position)
                 newPosition-=1;
             }
             temp="";
+            firstPosition = newPosition+1;
         }
 }
 
@@ -61,13 +65,14 @@ void fetchArtists::getArtists(int position)
 {
 //    int artistCount = 0;
 //    LinkedList<artist>* artists = new LinkedList<artist>;
+    firstPosition=position;
     std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks2.csv");
     std::vector<std::vector<std::string>> parsedCsv;
     csvparse myParse;
     parsedCsv = myParse.readCSV(ip);
     std::string temp="";
 
-    while (artist_list.size()!=30)
+    while (artist_list.size()!=5)
     {
         if (temp=="")
         {
@@ -109,6 +114,7 @@ void fetchArtists::getArtists(int position)
             position+=1;
         }
         temp="";
+        finalPosition=position;
     }
 }
 
@@ -177,6 +183,7 @@ void fetchArtists::getNextArtists(int position)
             position+=1;
         }
         temp="";
+        finalPosition=position;
     }
 }
 

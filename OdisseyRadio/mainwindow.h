@@ -25,6 +25,8 @@ private slots:
     void artistPressed(QListWidgetItem* myItem);
     void playPressed();
     void alert(std::string alertMessage);
+    void nextArtistPage();
+    void previousArtistPage();
 
 private:
     Ui::MainWindow *ui;
