@@ -40,15 +40,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn_play,SIGNAL(clicked()),this,SLOT(playPressed()));
 
+    connect(ui->btn_pause,SIGNAL(clicked()),this,SLOT(pausePressed()));
+
     connect(ui->btn_next,SIGNAL(clicked()),this,SLOT(nextArtistPage()));
 
     connect(ui->btn_previous,SIGNAL(clicked()),this,SLOT(previousArtistPage()));
 
+    QListWidget* myListW = ui->lw_song;
+    connect(myListW,&QListWidget::itemClicked,[&]{songPressed();});
+
     QScrollBar* myScroll2 = ui->lw_artists->verticalScrollBar();
     connect(myScroll2,&QScrollBar::valueChanged,[&]{pageManager();});
-
-//    QScrollBar* myScroll = ui->lw_song->verticalScrollBar();
-//    connect(myScroll,&QScrollBar::valueChanged,[&]{pageManager();});
 
 }
 
@@ -130,7 +132,7 @@ void MainWindow::artistPressed(QListWidgetItem* myItem)
     }
 }
 
-void MainWindow::playPressed()
+void MainWindow::songPressed()
 {
     current_songName = ui->lw_song->currentItem()->text().toUtf8().constData();
 
@@ -157,7 +159,17 @@ void MainWindow::playPressed()
     }
 
     log(path);
-    LoadTrack().playMusic(path);
+    LoadTrack().loadMusic(path);
+}
+
+void MainWindow::playPressed()
+{
+    LoadTrack().playMusic();
+}
+
+void MainWindow::pausePressed()
+{
+    LoadTrack().pauseMusic();
 }
 
 void MainWindow::alert(std::string alertMessage)
@@ -166,7 +178,6 @@ void MainWindow::alert(std::string alertMessage)
     reply.setText(QString::fromStdString(alertMessage));
     reply.exec();
 }
-
 
 MainWindow::~MainWindow()
 {

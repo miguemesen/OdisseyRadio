@@ -14,14 +14,16 @@ public:
 
     static QMediaPlayer* player;
 
-
-    static void playMusic(std::string& path)
+    static void loadMusic(std::string& path)
     {
-
         player->setMedia(QUrl::fromLocalFile(QString::fromStdString(path)));
         player->setVolume(default_volume);
-        player->play();
+    }
 
+
+    static void playMusic()
+    {
+        player->play();
     }
 
     static void pauseMusic(){

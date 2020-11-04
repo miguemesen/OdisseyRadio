@@ -27,8 +27,8 @@
    <widget class="QPushButton" name="btn_play">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>360</y>
+      <x>410</x>
+      <y>290</y>
       <width>89</width>
       <height>25</height>
      </rect>
@@ -50,8 +50,8 @@
    <widget class="QSlider" name="horizontalSlider">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>330</y>
+      <x>260</x>
+      <y>270</y>
       <width>391</width>
       <height>20</height>
      </rect>
@@ -84,6 +84,19 @@
     </property>
     <property name="text">
      <string>Previous</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_pause">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>320</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pause</string>
     </property>
    </widget>
   </widget>
