@@ -10,9 +10,11 @@
 #include "loadtrack.h"
 #include <string.h>
 #include <QMessageBox>
+#include <QMediaPlayer>
+
 #define log(x) std::cout<<x<<std::endl;
 
-
+#define default_volume 100
 #define SONG_NOT_FOUND ""
 #define CURRENT_SONG_NAME_NOT_ASSIGNED ""
 
@@ -34,25 +36,83 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    myMediaPlayer = new QMediaPlayer(this);
+
     artistManager();
 
     connect(ui->lw_artists,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(artistPressed(QListWidgetItem*)));
 
-    connect(ui->btn_play,SIGNAL(clicked()),this,SLOT(playPressed()));
+    //connect(ui->btn_play,SIGNAL(clicked()),this,SLOT(playPressed()));
 
-    connect(ui->btn_pause,SIGNAL(clicked()),this,SLOT(pausePressed()));
+    //connect(ui->btn_pause,SIGNAL(clicked()),this,SLOT(pausePressed()));
 
     connect(ui->btn_next,SIGNAL(clicked()),this,SLOT(nextArtistPage()));
 
     connect(ui->btn_previous,SIGNAL(clicked()),this,SLOT(previousArtistPage()));
 
+    connect(myMediaPlayer,&QMediaPlayer::positionChanged,[&](qint64 pos){
+        log(ui->songProgress->value())
+        ui->songProgress->setValue(pos);
+    });
+
+    connect(myMediaPlayer,&QMediaPlayer::durationChanged, [&](qint64 dur){
+        log(dur)
+        ui->songProgress->setMaximum(dur);
+    });
+
     QListWidget* myListW = ui->lw_song;
-    connect(myListW,&QListWidget::itemClicked,[&]{songPressed();});
+    connect(myListW,&QListWidget::itemClicked,[&]{onSongClicked();});
 
     QScrollBar* myScroll2 = ui->lw_artists->verticalScrollBar();
     connect(myScroll2,&QScrollBar::valueChanged,[&]{pageManager();});
 
 }
+
+void MainWindow::onSongClicked()
+{
+    current_songName = ui->lw_song->currentItem()->text().toUtf8().constData();
+
+
+    LinkedList<song>* song_list = myArtistFetcher->artist_list[current_artist]->songs;
+
+    song current_song;
+    for(int i=0; i < song_list->getSize(); i++){
+        song current = song_list->get(i)->data;
+        std::string songName = current.artistName;
+            current_song = current;
+            if(strcmp(current_songName.c_str(), current.songName.c_str()) == 0){
+            break;
+        }
+    }
+
+    std::string id = std::to_string(current_song.songId);
+    std::string path = myRC.getSongPathById(id);
+
+    if(strcmp(path.c_str(), SONG_NOT_FOUND) == 0){
+        alert("La cancion no existe");
+        return;
+
+    }
+
+    log(path);
+    myMediaPlayer->setMedia(QUrl::fromLocalFile(QString::fromStdString(path)));
+    myMediaPlayer->setVolume(default_volume);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void MainWindow::pageManager()
 {
@@ -184,3 +244,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::on_btn_play_clicked()
+{
+    myMediaPlayer->play();
+}
+
+void MainWindow::on_btn_pause_clicked()
+{
+    myMediaPlayer->pause();
+}

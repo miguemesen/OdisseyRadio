@@ -30,6 +30,7 @@ public:
         player->pause();
 
     }
+
 };
 
 #endif // LOADTRACK_H

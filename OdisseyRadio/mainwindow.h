@@ -4,10 +4,13 @@
 #include <QMainWindow>
 #include "QListWidgetItem"
 #include "artist.h"
+#include <QMediaPlayer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
+class QMediaPlayer;
 
 class MainWindow : public QMainWindow
 {
@@ -30,8 +33,15 @@ private slots:
     void previousArtistPage();
     void songPressed();
 
+
+    void onSongClicked();
+    void on_btn_play_clicked();
+
+    void on_btn_pause_clicked();
+
 private:
     Ui::MainWindow *ui;
+    QMediaPlayer *myMediaPlayer;
 
 };
 #endif // MAINWINDOW_H
