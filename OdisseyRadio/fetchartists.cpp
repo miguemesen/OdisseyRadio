@@ -8,8 +8,6 @@
 #include "song.h"
 
 std::string myPath = "/home/migue/Desktop/fma_metadata/raw_artists.csv";
-//int finalPosition;
-//int firstPosition=1592;
 
 fetchArtists::fetchArtists()
 {
@@ -63,8 +61,6 @@ void fetchArtists::getPreviousArtist(int position)
 
 void fetchArtists::getArtists(int position)
 {
-//    int artistCount = 0;
-//    LinkedList<artist>* artists = new LinkedList<artist>;
     firstPosition=position;
     std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks2.csv");
     std::vector<std::vector<std::string>> parsedCsv;
@@ -89,11 +85,8 @@ void fetchArtists::getArtists(int position)
 
             artist *myArtist = new artist();
             myArtist->artistName = mySong->artistName;
-            //log(*myArtist->artistName)
             myArtist->songs->addNodo(*mySong);
-            //artists->addNodo(*myArtist);
             artist_list[artistName2] = myArtist;
-            //artistCount+=1;
             position+=1;
             temp= mySong->artistName;
         }
@@ -102,7 +95,6 @@ void fetchArtists::getArtists(int position)
             song *mySong = new song;
             mySong->artistName = parsedCsv[position][5];
             mySong->songName = parsedCsv[position][37];
-            //artists->get(artistCount-1)->data.songs->addNodo(*mySong);
             mySong->songId = stoi(parsedCsv[position][0]);
 
             //------------------------------------------------------

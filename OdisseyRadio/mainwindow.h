@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "QListWidgetItem"
-#include "artist.h"
 #include <QMediaPlayer>
 
 QT_BEGIN_NAMESPACE
@@ -29,12 +28,16 @@ private slots:
     void alert(std::string alertMessage);
     void nextArtistPage();
     void previousArtistPage();
-    void songPressed();
+
 
     void onSongClicked();
     void on_btn_play_clicked();
     void on_btn_pause_clicked();
     void on_songSlider_valueChanged(int value);
+
+    void on_btn_allsongs_clicked();
+
+    void on_btn_byartist_clicked();
 
 private:
     Ui::MainWindow *ui;

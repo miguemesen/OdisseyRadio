@@ -12,6 +12,7 @@ SOURCES += \
     artist.cpp \
     csvparse.cpp \
     fetchartists.cpp \
+    getallsongs.cpp \
     loadtrack.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     artist.h \
     csvparse.h \
     fetchartists.h \
+    getallsongs.h \
     loadtrack.h \
     mainwindow.h \
     memoryusage.h \

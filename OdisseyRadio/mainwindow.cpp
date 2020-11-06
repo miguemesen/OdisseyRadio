@@ -11,6 +11,8 @@
 #include <string.h>
 #include <QMessageBox>
 #include <QMediaPlayer>
+#include "memoryusage.h"
+#include "getallsongs.h"
 
 #define log(x) std::cout<<x<<std::endl;
 
@@ -19,6 +21,7 @@
 #define CURRENT_SONG_NAME_NOT_ASSIGNED ""
 
 readerChecksums myRC;
+getallsongs* mySongFetcher = new getallsongs();
 fetchArtists* myArtistFetcher = new fetchArtists();
 fetchArtists* nextArtistFetcher = new fetchArtists();
 fetchArtists* previousArtistFetcher = new fetchArtists();
@@ -38,8 +41,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     myMediaPlayer = new QMediaPlayer(this);
 
-    artistManager();
-
     connect(ui->lw_artists,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(artistPressed(QListWidgetItem*)));
 
     //connect(ui->btn_play,SIGNAL(clicked()),this,SLOT(playPressed()));
@@ -50,32 +51,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn_previous,SIGNAL(clicked()),this,SLOT(previousArtistPage()));
 
-
-    // Old progressbar
-    //-----------------------------------------------------------------------------
-
-//    connect(myMediaPlayer,&QMediaPlayer::positionChanged,[&](qint64 pos){
-//        log(ui->songProgress->value())
-//        ui->songProgress->setValue(pos);
-//    });
-
-//    connect(myMediaPlayer,&QMediaPlayer::durationChanged, [&](qint64 dur){
-//        log(dur)
-//        ui->songProgress->setMaximum(dur);
-//    });
-
-    //-----------------------------------------------------------------------------
-
-
     connect(myMediaPlayer,&QMediaPlayer::positionChanged,[&](qint64 pos){
         ui->songSlider->setValue(pos);
     });
 
     connect(myMediaPlayer,&QMediaPlayer::durationChanged, [&](qint64 dur){
-        log(dur)
         ui->songSlider->setMaximum(dur);
     });
-
 
     QListWidget* myListW = ui->lw_song;
     connect(myListW,&QListWidget::itemClicked,[&]{onSongClicked();});
@@ -113,10 +95,9 @@ void MainWindow::onSongClicked()
         return;
 
     }
-
-    log(path);
     myMediaPlayer->setMedia(QUrl::fromLocalFile(QString::fromStdString(path)));
     myMediaPlayer->setVolume(default_volume);
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
 void MainWindow::pageManager()
@@ -134,8 +115,8 @@ void MainWindow::pageManager()
 
 void MainWindow::previousArtistPage()
 {
+    //PrintMemoryUsage();
     ui->lw_artists->clear();
-    std::cout<<"Esta es la posicion que le entra a previousArtistFetcher: "<<position<<std::endl;
     previousArtistFetcher->artist_list.clear();
     previousArtistFetcher->getPreviousArtist(firstPosition);
     myArtistFetcher->artist_list.clear();
@@ -148,13 +129,11 @@ void MainWindow::previousArtistPage()
     }
     firstPosition = previousArtistFetcher->firstPosition;
     finalPositionX = previousArtistFetcher->finalPosition;
-    std::cout<<"Esto es position cuando sale de la funcion: "<<position<<std::endl;
-}
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));}
 
 void MainWindow::nextArtistPage()
 {
     ui->lw_artists->clear();
-    std::cout<<"Esta es la posicion que le entra a nextArtistFetcher: "<<finalPositionX<<std::endl;
     nextArtistFetcher->artist_list.clear();
     nextArtistFetcher->getArtists(finalPositionX);
     myArtistFetcher->artist_list.clear();
@@ -168,11 +147,13 @@ void MainWindow::nextArtistPage()
     }
     firstPosition = nextArtistFetcher->firstPosition;
     finalPositionX = nextArtistFetcher->finalPosition;
-    std::cout<<"Esto es position cuando sale de la funcion: "<<position<<std::endl;
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
 void MainWindow::artistManager()
 {
+    ui->lw_artists->clear();
+    ui->lw_song->clear();
     myArtistFetcher->getArtists(1592);
     int index = 0;
     for(std::map<std::string,artist*>::iterator it= myArtistFetcher->artist_list.begin(); it != myArtistFetcher->artist_list.end(); it++)
@@ -183,7 +164,7 @@ void MainWindow::artistManager()
     //position=myArtistFetcher->finalPosition;
     firstPosition = myArtistFetcher->firstPosition;
     finalPositionX = myArtistFetcher->finalPosition;
-    std::cout<<"Final position cuando sale de artistManager: "<<myArtistFetcher->finalPosition<<std::endl;
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
 void MainWindow::artistPressed(QListWidgetItem* myItem)
@@ -195,36 +176,7 @@ void MainWindow::artistPressed(QListWidgetItem* myItem)
         song currentSong = myArtistFetcher->artist_list[current_artist]->songs->get(i)->data;
         ui->lw_song->insertItem(i, QString::fromStdString(currentSong.songName));
     }
-}
-
-void MainWindow::songPressed() // No se utiliza
-{
-    current_songName = ui->lw_song->currentItem()->text().toUtf8().constData();
-
-
-    LinkedList<song>* song_list = myArtistFetcher->artist_list[current_artist]->songs;
-
-    song current_song;
-    for(int i=0; i < song_list->getSize(); i++){
-        song current = song_list->get(i)->data;
-        std::string songName = current.artistName;
-            current_song = current;
-            if(strcmp(current_songName.c_str(), current.songName.c_str()) == 0){
-            break;
-        }
-    }
-
-    std::string id = std::to_string(current_song.songId);
-    std::string path = myRC.getSongPathById(id);
-
-    if(strcmp(path.c_str(), SONG_NOT_FOUND) == 0){
-        alert("La cancion no existe");
-        return;
-
-    }
-
-    log(path);
-    LoadTrack().loadMusic(path);
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
 void MainWindow::alert(std::string alertMessage)
@@ -253,4 +205,22 @@ void MainWindow::on_songSlider_valueChanged(int value)
 {
     myMediaPlayer->setPosition(value);
     //ui->songSlider->setValue(value);
+}
+
+void MainWindow::on_btn_allsongs_clicked()
+{
+    ui->lw_artists->clear();
+    ui->lw_song->clear();
+    mySongFetcher->fetchSongs(1592);
+//    int index = 0;
+//    for(std::map<int,song*>::iterator it=mySongFetcher->song_list.begin(); it != mySongFetcher->song_list.end(); it++)
+//    {
+//        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
+//        index++;
+//    }
+}
+
+void MainWindow::on_btn_byartist_clicked()
+{
+    artistManager();
 }

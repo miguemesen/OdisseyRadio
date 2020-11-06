@@ -19,10 +19,6 @@ public:
 
     std::map<std::string, artist*> artist_list;
 
-
-
-    //std::string path;
-
     bool exist(std::string artistName, LinkedList<std::string> list);
 
     fetchArtists();
