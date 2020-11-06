@@ -26,18 +26,15 @@ private slots:
     void pageManager();
     void artistManager();
     void artistPressed(QListWidgetItem* myItem);
-    void playPressed();
-    void pausePressed();
     void alert(std::string alertMessage);
     void nextArtistPage();
     void previousArtistPage();
     void songPressed();
 
-
     void onSongClicked();
     void on_btn_play_clicked();
-
     void on_btn_pause_clicked();
+    void on_songSlider_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;

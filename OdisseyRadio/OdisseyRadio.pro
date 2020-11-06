@@ -27,6 +27,7 @@ HEADERS += \
     fetchartists.h \
     loadtrack.h \
     mainwindow.h \
+    memoryusage.h \
     page.h \
     reader.h \
     readerchecksums.h \

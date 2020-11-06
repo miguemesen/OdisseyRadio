@@ -50,15 +50,32 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn_previous,SIGNAL(clicked()),this,SLOT(previousArtistPage()));
 
+
+    // Old progressbar
+    //-----------------------------------------------------------------------------
+
+//    connect(myMediaPlayer,&QMediaPlayer::positionChanged,[&](qint64 pos){
+//        log(ui->songProgress->value())
+//        ui->songProgress->setValue(pos);
+//    });
+
+//    connect(myMediaPlayer,&QMediaPlayer::durationChanged, [&](qint64 dur){
+//        log(dur)
+//        ui->songProgress->setMaximum(dur);
+//    });
+
+    //-----------------------------------------------------------------------------
+
+
     connect(myMediaPlayer,&QMediaPlayer::positionChanged,[&](qint64 pos){
-        log(ui->songProgress->value())
-        ui->songProgress->setValue(pos);
+        ui->songSlider->setValue(pos);
     });
 
     connect(myMediaPlayer,&QMediaPlayer::durationChanged, [&](qint64 dur){
         log(dur)
-        ui->songProgress->setMaximum(dur);
+        ui->songSlider->setMaximum(dur);
     });
+
 
     QListWidget* myListW = ui->lw_song;
     connect(myListW,&QListWidget::itemClicked,[&]{onSongClicked();});
@@ -66,7 +83,10 @@ MainWindow::MainWindow(QWidget *parent)
     QScrollBar* myScroll2 = ui->lw_artists->verticalScrollBar();
     connect(myScroll2,&QScrollBar::valueChanged,[&]{pageManager();});
 
+
+
 }
+
 
 void MainWindow::onSongClicked()
 {
@@ -98,21 +118,6 @@ void MainWindow::onSongClicked()
     myMediaPlayer->setMedia(QUrl::fromLocalFile(QString::fromStdString(path)));
     myMediaPlayer->setVolume(default_volume);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void MainWindow::pageManager()
 {
@@ -192,7 +197,7 @@ void MainWindow::artistPressed(QListWidgetItem* myItem)
     }
 }
 
-void MainWindow::songPressed()
+void MainWindow::songPressed() // No se utiliza
 {
     current_songName = ui->lw_song->currentItem()->text().toUtf8().constData();
 
@@ -222,16 +227,6 @@ void MainWindow::songPressed()
     LoadTrack().loadMusic(path);
 }
 
-void MainWindow::playPressed()
-{
-    LoadTrack().playMusic();
-}
-
-void MainWindow::pausePressed()
-{
-    LoadTrack().pauseMusic();
-}
-
 void MainWindow::alert(std::string alertMessage)
 {
     QMessageBox reply;
@@ -244,7 +239,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::on_btn_play_clicked()
 {
     myMediaPlayer->play();
@@ -253,4 +247,10 @@ void MainWindow::on_btn_play_clicked()
 void MainWindow::on_btn_pause_clicked()
 {
     myMediaPlayer->pause();
+}
+
+void MainWindow::on_songSlider_valueChanged(int value)
+{
+    myMediaPlayer->setPosition(value);
+    //ui->songSlider->setValue(value);
 }
