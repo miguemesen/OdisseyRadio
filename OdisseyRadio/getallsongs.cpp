@@ -1,6 +1,5 @@
 #include "getallsongs.h"
 
-
 getallsongs::getallsongs()
 {
 
@@ -22,7 +21,10 @@ void getallsongs::fetchSongs(int position)
         mySong->songId = stoi(parsedCsv[position][0]);
         mySong->songName = parsedCsv[position][37];
 
-        song_list[position] = mySong;
+        std::string id = std::to_string(mySong->songId);
+        mySong->songPath = myRCsums.getSongPathById(id);
+
+        song_list[mySong->songName] = mySong;
         std::cout<<song_list.size()<<std::endl;
         position+=1;
     }

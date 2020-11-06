@@ -28,6 +28,9 @@ fetchArtists* previousArtistFetcher = new fetchArtists();
 int position;
 int finalPositionX;
 int firstPosition;
+
+bool allButton;
+bool artistButton;
 /**
   Starts app and runs it in an event
  * @brief MainWindow::MainWindow
@@ -72,11 +75,21 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::onSongClicked()
 {
+
+    if(allButton)
+    {
+        if(strcmp(mySongFetcher->song_list[ui->lw_song->currentItem()->text().toUtf8().constData()]->songPath.c_str(), SONG_NOT_FOUND) == 0)
+        {
+            alert("La cancion no existe");
+            return;
+        }
+        myMediaPlayer->setMedia(QUrl::fromLocalFile(QString::fromStdString(mySongFetcher->song_list[ui->lw_song->currentItem()->text().toUtf8().constData()]->songPath)));
+        myMediaPlayer->setVolume(default_volume);
+        return;
+    }
+
     current_songName = ui->lw_song->currentItem()->text().toUtf8().constData();
-
-
     LinkedList<song>* song_list = myArtistFetcher->artist_list[current_artist]->songs;
-
     song current_song;
     for(int i=0; i < song_list->getSize(); i++){
         song current = song_list->get(i)->data;
@@ -86,14 +99,11 @@ void MainWindow::onSongClicked()
             break;
         }
     }
-
     std::string id = std::to_string(current_song.songId);
     std::string path = myRC.getSongPathById(id);
-
     if(strcmp(path.c_str(), SONG_NOT_FOUND) == 0){
         alert("La cancion no existe");
         return;
-
     }
     myMediaPlayer->setMedia(QUrl::fromLocalFile(QString::fromStdString(path)));
     myMediaPlayer->setVolume(default_volume);
@@ -209,18 +219,22 @@ void MainWindow::on_songSlider_valueChanged(int value)
 
 void MainWindow::on_btn_allsongs_clicked()
 {
+    artistButton = false;
+    allButton = true;
     ui->lw_artists->clear();
     ui->lw_song->clear();
     mySongFetcher->fetchSongs(1592);
-//    int index = 0;
-//    for(std::map<int,song*>::iterator it=mySongFetcher->song_list.begin(); it != mySongFetcher->song_list.end(); it++)
-//    {
-//        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
-//        index++;
-//    }
+    int index = 0;
+    for(std::map<int,song*>::iterator it=mySongFetcher->song_list.begin(); it != mySongFetcher->song_list.end(); it++)
+    {
+        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
+        index++;
+    }
 }
 
 void MainWindow::on_btn_byartist_clicked()
 {
+    allButton=false;
+    artistButton=true;
     artistManager();
 }

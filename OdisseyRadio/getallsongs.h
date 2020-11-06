@@ -5,13 +5,16 @@
 #include <iostream>
 #include "unordered_map"
 #include "song.h"
+#include "readerchecksums.h"
 
 
 class getallsongs
 {
 public:
 
-    std::map<int, song*> song_list;
+    readerChecksums myRCsums;
+
+    std::map<std::string, song*> song_list;
 
     void fetchSongs(int position);
 
