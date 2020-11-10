@@ -30,9 +30,6 @@ private slots:
     void nextArtistPage();
     void previousArtistPage();
 
-    void nextSongs();
-    void previousSongs();
-
     void onSongClicked();
     void on_btn_play_clicked();
     void on_btn_pause_clicked();

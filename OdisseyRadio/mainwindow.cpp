@@ -23,8 +23,6 @@
 readerChecksums myRC;
 
 getallsongs* mySongFetcher = new getallsongs();
-getallsongs* nextSongFetcher = new getallsongs();
-getallsongs* previousSongFetcher = new getallsongs();
 
 fetchArtists* myArtistFetcher = new fetchArtists();
 fetchArtists* nextArtistFetcher = new fetchArtists();
@@ -37,9 +35,7 @@ int firstPosition;
 bool allButton;
 bool artistButton;
 
-std::map<std::string, song*> previousPage;
-std::map<std::string, song*> nextPage;
-std::map<std::string, song*> currentPage;
+//std::map<std::string, song*> currentPage;
 
 std::map<std::string, song*> allSongsMap;
 
@@ -121,16 +117,6 @@ void MainWindow::onSongClicked()
 
 void MainWindow::pageManager()
 {
-//    if(ui->lw_song->verticalScrollBar()->value()==1)
-//    {
-//        nextSongs();
-//        //int index = 0;
-//        for(std::map<std::string,song*>::iterator it=currentPage.begin(); it != currentPage.end(); it++)
-//        {
-//            ui->lw_song->insertItem(myIndex,QString::fromStdString(it->second->songName));
-//            myIndex++;
-//        }
-//    }
 
 }
 
@@ -270,30 +256,6 @@ void MainWindow::addToAllMap(std::map<std::string,song*> myMap)
 
 //_____________________________________________________________________________________________________________
 
-void MainWindow::previousSongs()
-{
-    nextPage.clear();
-    nextPage = currentPage;
-    currentPage.clear();
-    currentPage = previousPage;
-    previousPage.clear();
-    previousSongFetcher->fetchPreviousSongs(songPosition);
-    previousPage = previousSongFetcher->song_list;
-    songPosition-=13;
-}
-
-void MainWindow::nextSongs()
-{
-    previousPage.clear();
-    previousPage = currentPage;
-    currentPage.clear();
-    currentPage = nextPage;
-    nextPage.clear();
-    nextSongFetcher->song_list.clear();
-    nextSongFetcher->fetchSongs(songPosition);
-    nextPage = nextSongFetcher->song_list;
-    songPosition+=13;
-}
 
 void MainWindow::on_btn_byartist_clicked()
 {
