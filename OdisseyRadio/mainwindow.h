@@ -29,14 +29,14 @@ private slots:
     void nextArtistPage();
     void previousArtistPage();
 
+    void nextSongs();
+    void previousSongs();
 
     void onSongClicked();
     void on_btn_play_clicked();
     void on_btn_pause_clicked();
     void on_songSlider_valueChanged(int value);
-
     void on_btn_allsongs_clicked();
-
     void on_btn_byartist_clicked();
 
 private:

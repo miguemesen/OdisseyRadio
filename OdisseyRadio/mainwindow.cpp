@@ -21,16 +21,29 @@
 #define CURRENT_SONG_NAME_NOT_ASSIGNED ""
 
 readerChecksums myRC;
+
 getallsongs* mySongFetcher = new getallsongs();
+getallsongs* nextSongFetcher = new getallsongs();
+getallsongs* previousSongFetcher = new getallsongs();
+
 fetchArtists* myArtistFetcher = new fetchArtists();
 fetchArtists* nextArtistFetcher = new fetchArtists();
 fetchArtists* previousArtistFetcher = new fetchArtists();
-int position;
+
+int songPosition;
 int finalPositionX;
 int firstPosition;
 
 bool allButton;
 bool artistButton;
+
+std::map<std::string, song*> previousPage;
+std::map<std::string, song*> nextPage;
+std::map<std::string, song*> currentPage;
+
+std::map<std::string, song*> allSongsMap;
+
+
 /**
   Starts app and runs it in an event
  * @brief MainWindow::MainWindow
@@ -46,10 +59,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->lw_artists,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(artistPressed(QListWidgetItem*)));
 
-    //connect(ui->btn_play,SIGNAL(clicked()),this,SLOT(playPressed()));
-
-    //connect(ui->btn_pause,SIGNAL(clicked()),this,SLOT(pausePressed()));
-
     connect(ui->btn_next,SIGNAL(clicked()),this,SLOT(nextArtistPage()));
 
     connect(ui->btn_previous,SIGNAL(clicked()),this,SLOT(previousArtistPage()));
@@ -62,10 +71,11 @@ MainWindow::MainWindow(QWidget *parent)
         ui->songSlider->setMaximum(dur);
     });
 
+
     QListWidget* myListW = ui->lw_song;
     connect(myListW,&QListWidget::itemClicked,[&]{onSongClicked();});
 
-    QScrollBar* myScroll2 = ui->lw_artists->verticalScrollBar();
+    QScrollBar* myScroll2 = ui->lw_song->verticalScrollBar();
     connect(myScroll2,&QScrollBar::valueChanged,[&]{pageManager();});
 
 
@@ -75,7 +85,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::onSongClicked()
 {
-
     if(allButton)
     {
         if(strcmp(mySongFetcher->song_list[ui->lw_song->currentItem()->text().toUtf8().constData()]->songPath.c_str(), SONG_NOT_FOUND) == 0)
@@ -112,15 +121,17 @@ void MainWindow::onSongClicked()
 
 void MainWindow::pageManager()
 {
-    log(ui->lw_artists->verticalScrollBar()->value());
-//    if (ui->lw_artists->verticalScrollBar()->value() == 3)
+//    if(ui->lw_song->verticalScrollBar()->value()==1)
 //    {
-//        log("Max")
+//        nextSongs();
+//        //int index = 0;
+//        for(std::map<std::string,song*>::iterator it=currentPage.begin(); it != currentPage.end(); it++)
+//        {
+//            ui->lw_song->insertItem(myIndex,QString::fromStdString(it->second->songName));
+//            myIndex++;
+//        }
 //    }
-//    if (ui->lw_artists->verticalScrollBar()->value() == 0)
-//    {
-//        log("Min")
-//    }
+
 }
 
 void MainWindow::previousArtistPage()
@@ -164,7 +175,7 @@ void MainWindow::artistManager()
 {
     ui->lw_artists->clear();
     ui->lw_song->clear();
-    myArtistFetcher->getArtists(1592);
+    myArtistFetcher->getArtists(1584);
     int index = 0;
     for(std::map<std::string,artist*>::iterator it= myArtistFetcher->artist_list.begin(); it != myArtistFetcher->artist_list.end(); it++)
     {
@@ -223,13 +234,60 @@ void MainWindow::on_btn_allsongs_clicked()
     allButton = true;
     ui->lw_artists->clear();
     ui->lw_song->clear();
-    mySongFetcher->fetchSongs(1592);
+    songPosition=1584;
+    mySongFetcher->fetchSongs(songPosition);
+    previousPage = mySongFetcher->song_list;
+    mySongFetcher->song_list.clear();
+    songPosition+=12;
+    mySongFetcher->fetchSongs(songPosition);
+    currentPage = mySongFetcher->song_list;
+    mySongFetcher->song_list.clear();
+    songPosition+=12;
+    mySongFetcher->fetchSongs(songPosition);
+    nextPage = mySongFetcher->song_list;
+    songPosition+=12;
     int index = 0;
-    for(std::map<int,song*>::iterator it=mySongFetcher->song_list.begin(); it != mySongFetcher->song_list.end(); it++)
+    for(std::map<std::string,song*>::iterator it=previousPage.begin(); it != previousPage.end(); it++)
     {
         ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
         index++;
     }
+    for(std::map<std::string,song*>::iterator it=currentPage.begin(); it != currentPage.end(); it++)
+    {
+        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
+        index++;
+    }
+    for(std::map<std::string,song*>::iterator it=nextPage.begin(); it != nextPage.end(); it++)
+    {
+        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
+        index++;
+    }
+    log(index);
+}
+
+void MainWindow::previousSongs()
+{
+    nextPage.clear();
+    nextPage = currentPage;
+    currentPage.clear();
+    currentPage = previousPage;
+    previousPage.clear();
+    previousSongFetcher->fetchPreviousSongs(songPosition);
+    previousPage = previousSongFetcher->song_list;
+    songPosition-=13;
+}
+
+void MainWindow::nextSongs()
+{
+    previousPage.clear();
+    previousPage = currentPage;
+    currentPage.clear();
+    currentPage = nextPage;
+    nextPage.clear();
+    nextSongFetcher->song_list.clear();
+    nextSongFetcher->fetchSongs(songPosition);
+    nextPage = nextSongFetcher->song_list;
+    songPosition+=13;
 }
 
 void MainWindow::on_btn_byartist_clicked()

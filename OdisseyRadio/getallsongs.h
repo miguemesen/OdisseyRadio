@@ -16,6 +16,8 @@ public:
 
     std::map<std::string, song*> song_list;
 
+    void fetchPreviousSongs(int position);
+
     void fetchSongs(int position);
 
     getallsongs();
