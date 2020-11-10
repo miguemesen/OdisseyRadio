@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "QListWidgetItem"
 #include <QMediaPlayer>
+#include "song.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,6 +39,8 @@ private slots:
     void on_songSlider_valueChanged(int value);
     void on_btn_allsongs_clicked();
     void on_btn_byartist_clicked();
+
+    void addToAllMap(std::map<std::string,song*> myMap);
 
 private:
     Ui::MainWindow *ui;

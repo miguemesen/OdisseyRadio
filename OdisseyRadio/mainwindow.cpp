@@ -87,12 +87,12 @@ void MainWindow::onSongClicked()
 {
     if(allButton)
     {
-        if(strcmp(mySongFetcher->song_list[ui->lw_song->currentItem()->text().toUtf8().constData()]->songPath.c_str(), SONG_NOT_FOUND) == 0)
+        if(strcmp(allSongsMap[ui->lw_song->currentItem()->text().toUtf8().constData()]->songPath.c_str(), SONG_NOT_FOUND) == 0)
         {
             alert("La cancion no existe");
             return;
         }
-        myMediaPlayer->setMedia(QUrl::fromLocalFile(QString::fromStdString(mySongFetcher->song_list[ui->lw_song->currentItem()->text().toUtf8().constData()]->songPath)));
+        myMediaPlayer->setMedia(QUrl::fromLocalFile(QString::fromStdString(allSongsMap[ui->lw_song->currentItem()->text().toUtf8().constData()]->songPath)));
         myMediaPlayer->setVolume(default_volume);
         return;
     }
@@ -235,35 +235,40 @@ void MainWindow::on_btn_allsongs_clicked()
     ui->lw_artists->clear();
     ui->lw_song->clear();
     songPosition=1584;
+
     mySongFetcher->fetchSongs(songPosition);
-    previousPage = mySongFetcher->song_list;
+    addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
     songPosition+=12;
     mySongFetcher->fetchSongs(songPosition);
-    currentPage = mySongFetcher->song_list;
+    addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
     songPosition+=12;
     mySongFetcher->fetchSongs(songPosition);
-    nextPage = mySongFetcher->song_list;
+    addToAllMap(mySongFetcher->song_list);
+    mySongFetcher->song_list.clear();
     songPosition+=12;
+
     int index = 0;
-    for(std::map<std::string,song*>::iterator it=previousPage.begin(); it != previousPage.end(); it++)
-    {
-        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
-        index++;
-    }
-    for(std::map<std::string,song*>::iterator it=currentPage.begin(); it != currentPage.end(); it++)
-    {
-        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
-        index++;
-    }
-    for(std::map<std::string,song*>::iterator it=nextPage.begin(); it != nextPage.end(); it++)
+    for(std::map<std::string,song*>::iterator it=allSongsMap.begin(); it != allSongsMap.end(); it++)
     {
         ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
         index++;
     }
     log(index);
 }
+
+//_____________________________________________________________________________________________________________
+
+void MainWindow::addToAllMap(std::map<std::string,song*> myMap)
+{
+    for(std::map<std::string,song*>::iterator it=myMap.begin(); it != myMap.end(); it++)
+    {
+        allSongsMap[it->second->songName] = it->second;
+    }
+}
+
+//_____________________________________________________________________________________________________________
 
 void MainWindow::previousSongs()
 {
