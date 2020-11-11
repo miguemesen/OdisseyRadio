@@ -1,10 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <iostream>
 #include <QMainWindow>
 #include "QListWidgetItem"
 #include <QMediaPlayer>
 #include "song.h"
+#include <unordered_map>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +22,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     std::string current_artist;
     std::string current_songName;
+
+
     ~MainWindow();
 
 private slots:
@@ -37,7 +41,11 @@ private slots:
     void on_btn_allsongs_clicked();
     void on_btn_byartist_clicked();
 
-    void addToAllMap(std::map<std::string,song*> myMap);
+    void nextPage();
+    void previousPage();
+
+    void addToAllMap(std::unordered_map<std::string,song*> myMap);
+    std::vector<std::string> addToSongVector(std::unordered_map<std::string,song*> myMap);
 
 private:
     Ui::MainWindow *ui;

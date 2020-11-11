@@ -28,6 +28,10 @@ fetchArtists* myArtistFetcher = new fetchArtists();
 fetchArtists* nextArtistFetcher = new fetchArtists();
 fetchArtists* previousArtistFetcher = new fetchArtists();
 
+std::vector<std::string> previousSongNames;
+std::vector<std::string> currentSongNames;
+std::vector<std::string> nextSongNames;
+
 int songPosition;
 int finalPositionX;
 int firstPosition;
@@ -35,9 +39,8 @@ int firstPosition;
 bool allButton;
 bool artistButton;
 
-//std::map<std::string, song*> currentPage;
 
-std::map<std::string, song*> allSongsMap;
+std::unordered_map<std::string, song*> allSongsMap;
 
 
 /**
@@ -117,7 +120,58 @@ void MainWindow::onSongClicked()
 
 void MainWindow::pageManager()
 {
+    if(ui->lw_song->verticalScrollBar()->value()==24)
+    {
+        nextPage();
+    }
 
+//    if(ui->lw_song->verticalScrollBar()->value()==0)
+//    {
+//        previousPage();
+//    }
+}
+
+void MainWindow::previousPage()
+{
+
+}
+
+void MainWindow::nextPage()
+{
+
+    for(int i=0; i<12; i++)
+    {
+        ui->lw_song->takeItem(i);
+        allSongsMap.erase(previousSongNames[i]);
+    }
+
+//    int index=0;
+//    for(std::vector<std::string>::iterator it=previousSongNames.begin(); it != previousSongNames.end(); it++)
+//    {
+//        ui->lw_song->takeItem(index);
+//        allSongsMap.erase(*it);
+//        index++;
+//    }
+
+
+//    previousSongNames.clear();
+//    previousSongNames=currentSongNames;
+//    currentSongNames.clear();
+//    currentSongNames = nextSongNames;
+//    nextSongNames.clear();
+
+//    mySongFetcher->fetchSongs(songPosition);
+//    nextSongNames = addToSongVector(mySongFetcher->song_list);
+//    addToAllMap(mySongFetcher->song_list);
+//    mySongFetcher->song_list.clear();
+//    songPosition+=12;
+
+//    int index2 = 24;
+//    for (int i=0; i<12; i++)
+//    {
+//        ui->lw_song->insertItem(index2,QString::fromStdString(nextSongNames[i]));
+//        index2++;
+//    }
 }
 
 void MainWindow::previousArtistPage()
@@ -223,35 +277,73 @@ void MainWindow::on_btn_allsongs_clicked()
     songPosition=1584;
 
     mySongFetcher->fetchSongs(songPosition);
+    previousSongNames = addToSongVector(mySongFetcher->song_list);
     addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
     songPosition+=12;
+
     mySongFetcher->fetchSongs(songPosition);
+    currentSongNames = addToSongVector(mySongFetcher->song_list);
     addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
     songPosition+=12;
+
     mySongFetcher->fetchSongs(songPosition);
+    nextSongNames = addToSongVector(mySongFetcher->song_list);
     addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
     songPosition+=12;
 
     int index = 0;
-    for(std::map<std::string,song*>::iterator it=allSongsMap.begin(); it != allSongsMap.end(); it++)
+    for (int i=0; i<12; i++)
     {
-        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
+        ui->lw_song->insertItem(index,QString::fromStdString(previousSongNames[i]));
         index++;
     }
-    log(index);
+
+    for (int i=0; i<12; i++)
+    {
+        ui->lw_song->insertItem(index,QString::fromStdString(currentSongNames[i]));
+        index++;
+    }
+
+    for (int i=0; i<12; i++)
+    {
+        ui->lw_song->insertItem(index,QString::fromStdString(nextSongNames[i]));
+        index++;
+    }
+
+//    int index = 0;
+//    for(std::unordered_map<std::string,song*>::iterator it=allSongsMap.begin(); it != allSongsMap.end(); it++)
+//    {
+//        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
+//        index++;
+//    }
 }
 
 //_____________________________________________________________________________________________________________
 
-void MainWindow::addToAllMap(std::map<std::string,song*> myMap)
+void MainWindow::addToAllMap(std::unordered_map<std::string,song*> myMap)
 {
-    for(std::map<std::string,song*>::iterator it=myMap.begin(); it != myMap.end(); it++)
+    for(std::unordered_map<std::string,song*>::iterator it=myMap.begin(); it != myMap.end(); it++)
     {
         allSongsMap[it->second->songName] = it->second;
     }
+}
+
+std::vector<std::string> MainWindow::addToSongVector(std::unordered_map<std::string,song*> myMap)
+{
+    std::vector<std::string> myVector;
+    for(std::unordered_map<std::string,song*>::iterator it=myMap.begin(); it != myMap.end(); it++)
+    {
+        myVector.push_back(it->second->songName);
+    }
+
+//    for(std::vector<std::string>::iterator it=myVector.begin(); it != myVector.end(); it++)
+//    {
+//        std::cout<<*it<<std::endl;
+//    }
+    return myVector;
 }
 
 //_____________________________________________________________________________________________________________
