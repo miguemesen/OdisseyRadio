@@ -56,7 +56,7 @@ LinkedList<song> readerChecksums::getFirst(){
     std::string line;
     LinkedList<song> myList;
     //std::vector<std::string> myVector(10);
-    for(int i = 0; i < 12; i++)
+    for(int i = 0; i < 20; i++)
     {
         song newSong;
         getline(ip,line,'\n');
@@ -76,11 +76,11 @@ LinkedList<song> readerChecksums::getPrevious(std::string songId){
     LinkedList<song> myList;
     //std::vector<std::string> myVector(10);
     int reps = getSongById(songId);
-    for (int i=0; i<reps-13; i++)
+    for (int i=0; i<reps-21; i++)
     {
         getline(ip,line,'\n');
     }
-    for(int i = 0; i < 12; i++)
+    for(int i = 0; i < 20; i++)
     {
         song newSong;
         getline(ip,line,'\n');
@@ -122,7 +122,7 @@ LinkedList<song> readerChecksums::getNext(std::string songId){
     {
         getline(ip,line,'\n');
     }
-    for(int i = 0; i < 12; i++)
+    for(int i = 0; i < 20; i++)
     {
         song newSong;
         getline(ip,line,'\n');

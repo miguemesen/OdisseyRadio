@@ -13,7 +13,7 @@ void getallsongs::fetchPreviousSongs(int position)
     csvparse myParse;
     parsedCsv = myParse.readCSV(ip);
 
-    while(song_list.size()!=12)
+    while(song_list.size()!=20)
     {
         song *mySong = new song();
         mySong->artistName = parsedCsv[position][1];
@@ -36,7 +36,7 @@ void getallsongs::fetchSongs(int position)
     csvparse myParse;
     parsedCsv = myParse.readCSV(ip);
 
-    while(song_list.size()!=12)
+    while(song_list.size()!=20)
     {
         song *mySong = new song();
         mySong->artistName = parsedCsv[position][1];

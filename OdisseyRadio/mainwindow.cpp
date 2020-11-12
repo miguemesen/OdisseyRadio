@@ -124,16 +124,16 @@ void MainWindow::onSongClicked()
 
 void MainWindow::pageManager()
 {
-    if(ui->lw_song->verticalScrollBar()->value()>=24)
+    if(ui->lw_song->verticalScrollBar()->value()>=48)
     {
-        ui->lw_song->verticalScrollBar()->setValue(3);
+        ui->lw_song->verticalScrollBar()->setSliderPosition(18);
         nextPage();
         log(ui->lw_song->count());
     }
 
     if(ui->lw_song->verticalScrollBar()->value()<=2)
     {
-        ui->lw_song->verticalScrollBar()->setValue(12);
+        ui->lw_song->verticalScrollBar()->setSliderPosition(18);
         previousPage();
         log(ui->lw_song->count());
     }
@@ -141,9 +141,9 @@ void MainWindow::pageManager()
 
 void MainWindow::previousPage()
 {
-    for(int i=0; i<12; i++)
+    for(int i=0; i<20; i++)
     {
-        ui->lw_song->takeItem(24);
+        ui->lw_song->takeItem(40);
         allSongsMap.erase(nextSongNames[i]);
     }
 
@@ -153,14 +153,14 @@ void MainWindow::previousPage()
     currentSongNames = previousSongNames;
     previousSongNames.clear();
 
-    mySongFetcher->fetchSongs(songPosition-48);
+    mySongFetcher->fetchSongs(songPosition-80);
     previousSongNames = addToSongVector(mySongFetcher->song_list);
     addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
-    songPosition-=12;
+    songPosition-=20;
 
     int index2 = 0;
-    for (int i=0; i<12; i++)
+    for (int i=0; i<20; i++)
     {
         ui->lw_song->insertItem(index2,QString::fromStdString(previousSongNames[i]));
         index2++;
@@ -170,7 +170,7 @@ void MainWindow::previousPage()
 void MainWindow::nextPage()
 {
 
-    for(int i=0; i<12; i++)
+    for(int i=0; i<20; i++)
     {
         ui->lw_song->takeItem(0);
         allSongsMap.erase(previousSongNames[i]);
@@ -186,10 +186,10 @@ void MainWindow::nextPage()
     nextSongNames = addToSongVector(mySongFetcher->song_list);
     addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
-    songPosition+=12;
+    songPosition+=20;
 
-    int index2 = 24;
-    for (int i=0; i<12; i++)
+    int index2 = 40;
+    for (int i=0; i<20; i++)
     {
         ui->lw_song->insertItem(index2,QString::fromStdString(nextSongNames[i]));
         index2++;
@@ -302,34 +302,34 @@ void MainWindow::on_btn_allsongs_clicked()
     previousSongNames = addToSongVector(mySongFetcher->song_list);
     addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
-    songPosition+=12;
+    songPosition+=20;
 
     mySongFetcher->fetchSongs(songPosition);
     currentSongNames = addToSongVector(mySongFetcher->song_list);
     addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
-    songPosition+=12;
+    songPosition+=20;
 
     mySongFetcher->fetchSongs(songPosition);
     nextSongNames = addToSongVector(mySongFetcher->song_list);
     addToAllMap(mySongFetcher->song_list);
     mySongFetcher->song_list.clear();
-    songPosition+=12;
+    songPosition+=20;
 
     int index = 0;
-    for (int i=0; i<12; i++)
+    for (int i=0; i<20; i++)
     {
         ui->lw_song->insertItem(index,QString::fromStdString(previousSongNames[i]));
         index++;
     }
 
-    for (int i=0; i<12; i++)
+    for (int i=0; i<20; i++)
     {
         ui->lw_song->insertItem(index,QString::fromStdString(currentSongNames[i]));
         index++;
     }
 
-    for (int i=0; i<12; i++)
+    for (int i=0; i<20; i++)
     {
         ui->lw_song->insertItem(index,QString::fromStdString(nextSongNames[i]));
         index++;
