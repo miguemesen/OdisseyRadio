@@ -14,7 +14,7 @@ public:
 
     readerChecksums myRCsums;
 
-    std::unordered_map<std::string, song*> song_list;
+    std::map<std::string, song*> song_list;
 
     void fetchPreviousSongs(int position);
 

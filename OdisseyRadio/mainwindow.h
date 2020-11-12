@@ -44,8 +44,10 @@ private slots:
     void nextPage();
     void previousPage();
 
-    void addToAllMap(std::unordered_map<std::string,song*> myMap);
-    std::vector<std::string> addToSongVector(std::unordered_map<std::string,song*> myMap);
+    void addToAllMap(std::map<std::string,song*> myMap);
+    std::vector<std::string> addToSongVector(std::map<std::string,song*> myMap);
+
+    void on_btn_stop_clicked();
 
 private:
     Ui::MainWindow *ui;
