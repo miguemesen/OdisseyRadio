@@ -44,9 +44,9 @@ std::map<std::string, song*> allSongsMap;
 
 
 /**
-  Starts app and runs it in an event
- * @brief MainWindow::MainWindow
+ * @brief MainWindow::MainWindow Starts app and runs it in an event
  * @param parent
+ * @author miguemesen
  */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -56,15 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     myMediaPlayer = new QMediaPlayer(this);
 
-    ui->lw_song->verticalScrollBar()->setMinimum(0);
-
-    ui->lw_song->verticalScrollBar()->setMaximum(36);
-
     connect(ui->lw_artists,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(artistPressed(QListWidgetItem*)));
-
-    connect(ui->btn_next,SIGNAL(clicked()),this,SLOT(nextArtistPage()));
-
-    connect(ui->btn_previous,SIGNAL(clicked()),this,SLOT(previousArtistPage()));
 
     connect(myMediaPlayer,&QMediaPlayer::positionChanged,[&](qint64 pos){
         ui->songSlider->setValue(pos);
@@ -81,11 +73,14 @@ MainWindow::MainWindow(QWidget *parent)
     QScrollBar* myScroll2 = ui->lw_song->verticalScrollBar();
     connect(myScroll2,&QScrollBar::valueChanged,[&]{pageManager();});
 
-
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 
 }
 
-
+/**
+ * @brief MainWindow::onSongClicked If the clicked element is part of the existing songs on the computer it loads the song and prepares it to be played
+ * @author miguemesen
+ */
 void MainWindow::onSongClicked()
 {
     if(allButton)
@@ -122,42 +117,59 @@ void MainWindow::onSongClicked()
     ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
+/**
+ * @brief MainWindow::pageManager Controls in which direction the paging is going
+ * @author gabo1305
+ */
 void MainWindow::pageManager()
 {
     if(ui->lw_song->verticalScrollBar()->value()>=48)
     {
-        ui->lw_song->verticalScrollBar()->setSliderPosition(18);
+        ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
         nextPage();
-        log(ui->lw_song->count());
+        ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
     }
 
     if(ui->lw_song->verticalScrollBar()->value()<=2)
     {
-        ui->lw_song->verticalScrollBar()->setSliderPosition(18);
+        ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
         previousPage();
-        log(ui->lw_song->count());
+        ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
     }
 }
 
+/**
+ * @brief MainWindow::previousPage Gets the previous 20 songs from the csv and deletes the songs that were in the next page
+ * @author miguemesen
+ */
 void MainWindow::previousPage()
 {
-    for(int i=0; i<20; i++)
+    if(ui->checkBox_paging->isChecked())
     {
-        ui->lw_song->takeItem(40);
-        allSongsMap.erase(nextSongNames[i]);
+        ui->lw_song->verticalScrollBar()->setSliderPosition(18);
+        // Delete next songs
+        for(int i=0; i<20; i++)
+        {
+            song* temp = allSongsMap[ui->lw_song->item(40)->text().toUtf8().constData()];
+            ui->lw_song->takeItem(40);
+            allSongsMap.erase(nextSongNames[i]);
+            delete temp;
+        }
+
+        nextSongNames.clear();
+        nextSongNames=currentSongNames;
+        currentSongNames.clear();
+        currentSongNames = previousSongNames;
+
     }
+        previousSongNames.clear();
 
-    nextSongNames.clear();
-    nextSongNames=currentSongNames;
-    currentSongNames.clear();
-    currentSongNames = previousSongNames;
-    previousSongNames.clear();
-
-    mySongFetcher->fetchSongs(songPosition-80);
-    previousSongNames = addToSongVector(mySongFetcher->song_list);
-    addToAllMap(mySongFetcher->song_list);
-    mySongFetcher->song_list.clear();
-    songPosition-=20;
+        mySongFetcher->fetchSongs(songPosition-80);
+        previousSongNames = addToSongVector(mySongFetcher->song_list);
+        addToAllMap(mySongFetcher->song_list);
+        mySongFetcher->song_list.clear();
+        songPosition-=20;
+    //}
 
     int index2 = 0;
     for (int i=0; i<20; i++)
@@ -165,28 +177,41 @@ void MainWindow::previousPage()
         ui->lw_song->insertItem(index2,QString::fromStdString(previousSongNames[i]));
         index2++;
     }
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
+/**
+ * @brief MainWindow::nextPage Gets the next 20 songs from the csv and deletes the songs that were in the previous page
+ * @author miguemesen
+ */
 void MainWindow::nextPage()
 {
-
-    for(int i=0; i<20; i++)
+    if(ui->checkBox_paging->isChecked())
     {
-        ui->lw_song->takeItem(0);
-        allSongsMap.erase(previousSongNames[i]);
+        ui->lw_song->verticalScrollBar()->setSliderPosition(18);
+
+        // Delete previous songs
+        for(int i=0; i<20; i++)
+        {
+            song* temp = allSongsMap[ui->lw_song->item(0)->text().toUtf8().constData()];
+            ui->lw_song->takeItem(0);
+            allSongsMap.erase(previousSongNames[i]);
+            delete temp;
+        }
+
+        previousSongNames.clear();
+        previousSongNames=currentSongNames;
+        currentSongNames.clear();
+        currentSongNames = nextSongNames;
     }
+        nextSongNames.clear();
 
-    previousSongNames.clear();
-    previousSongNames=currentSongNames;
-    currentSongNames.clear();
-    currentSongNames = nextSongNames;
-    nextSongNames.clear();
-
-    mySongFetcher->fetchSongs(songPosition);
-    nextSongNames = addToSongVector(mySongFetcher->song_list);
-    addToAllMap(mySongFetcher->song_list);
-    mySongFetcher->song_list.clear();
-    songPosition+=20;
+        mySongFetcher->fetchSongs(songPosition);
+        nextSongNames = addToSongVector(mySongFetcher->song_list);
+        addToAllMap(mySongFetcher->song_list);
+        mySongFetcher->song_list.clear();
+        songPosition+=20;
+    //}
 
     int index2 = 40;
     for (int i=0; i<20; i++)
@@ -194,11 +219,15 @@ void MainWindow::nextPage()
         ui->lw_song->insertItem(index2,QString::fromStdString(nextSongNames[i]));
         index2++;
     }
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
+/**
+ * @brief MainWindow::previousArtistPage Gets the previous 5 artists and inserts them into the artist list widget
+ * @author gabo1305
+ */
 void MainWindow::previousArtistPage()
 {
-    //PrintMemoryUsage();
     ui->lw_artists->clear();
     previousArtistFetcher->artist_list.clear();
     previousArtistFetcher->getPreviousArtist(firstPosition);
@@ -214,6 +243,10 @@ void MainWindow::previousArtistPage()
     finalPositionX = previousArtistFetcher->finalPosition;
     ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));}
 
+/**
+ * @brief MainWindow::nextArtistPage Gets the next 5 artists and inserts them into the artist list widget
+ * @author gabo1305
+ */
 void MainWindow::nextArtistPage()
 {
     ui->lw_artists->clear();
@@ -233,6 +266,10 @@ void MainWindow::nextArtistPage()
     ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
+/**
+ * @brief MainWindow::artistManager Initializes or resets the search through artist option
+ * @author gabo1305
+ */
 void MainWindow::artistManager()
 {
     ui->lw_artists->clear();
@@ -250,6 +287,11 @@ void MainWindow::artistManager()
     ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
+/**
+ * @brief MainWindow::artistPressed Displays on the song list widget all the songs from the artist.
+ * @param myItem Song from the list widget
+ * @author miguemesen
+ */
 void MainWindow::artistPressed(QListWidgetItem* myItem)
 {
     ui->lw_song->clear();
@@ -262,6 +304,11 @@ void MainWindow::artistPressed(QListWidgetItem* myItem)
     ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
+/**
+ * @brief MainWindow::alert Throws an alert
+ * @param alertMessage Message wished to display
+ * @author gabo1305
+ */
 void MainWindow::alert(std::string alertMessage)
 {
     QMessageBox reply;
@@ -269,33 +316,56 @@ void MainWindow::alert(std::string alertMessage)
     reply.exec();
 }
 
+/**
+ * @brief MainWindow::~MainWindow
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+/**
+ * @brief MainWindow::on_btn_play_clicked Action when play button is clicked
+ * @author gabo1305
+ */
 void MainWindow::on_btn_play_clicked()
 {
     myMediaPlayer->play();
 }
 
+/**
+ * @brief MainWindow::on_btn_pause_clicked Action when pause button is clicked
+ * @author gabo1305
+ */
 void MainWindow::on_btn_pause_clicked()
 {
     myMediaPlayer->pause();
 }
 
+/**
+ * @brief MainWindow::on_songSlider_valueChanged Actions that interact with the song slider
+ * @param value new position of the song
+ * @author gabo1305
+ */
 void MainWindow::on_songSlider_valueChanged(int value)
 {
     myMediaPlayer->setPosition(value);
     //ui->songSlider->setValue(value);
 }
 
+/**
+ * @brief MainWindow::on_btn_allsongs_clicked Action when all songs button is clicked. Loads three pages filled with songs into the song list widget
+ * @author miguemesen
+ */
 void MainWindow::on_btn_allsongs_clicked()
 {
     artistButton = false;
     allButton = true;
     ui->lw_artists->clear();
     ui->lw_song->clear();
+    previousSongNames.clear();
+    currentSongNames.clear();
+    nextSongNames.clear();
     songPosition=1584;
 
     mySongFetcher->fetchSongs(songPosition);
@@ -343,14 +413,25 @@ void MainWindow::on_btn_allsongs_clicked()
 //    }
 }
 
+/**
+ * @brief MainWindow::addToAllMap Adds songs from one map to another
+ * @param myMap Map from which is desired to extract songs
+ * @author miguemesen
+ */
 void MainWindow::addToAllMap(std::map<std::string,song*> myMap)
 {
     for(std::map<std::string,song*>::iterator it=myMap.begin(); it != myMap.end(); it++)
     {
         allSongsMap[it->second->songName] = it->second;
     }
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
 }
 
+/**
+ * @brief MainWindow::addToSongVector Fills a vector with the names of songs that come from a map
+ * @param myMap Map from which is desired to get song names
+ * @return
+ */
 std::vector<std::string> MainWindow::addToSongVector(std::map<std::string,song*> myMap)
 {
     std::vector<std::string> myVector;
@@ -358,14 +439,14 @@ std::vector<std::string> MainWindow::addToSongVector(std::map<std::string,song*>
     {
         myVector.push_back(it->second->songName);
     }
-
-//    for(std::vector<std::string>::iterator it=myVector.begin(); it != myVector.end(); it++)
-//    {
-//        std::cout<<*it<<std::endl;
-//    }
+    ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
     return myVector;
 }
 
+/**
+ * @brief MainWindow::on_btn_byartist_clicked Calls the artist manager
+ * @author gabo1305
+ */
 void MainWindow::on_btn_byartist_clicked()
 {
     allButton=false;
@@ -373,7 +454,32 @@ void MainWindow::on_btn_byartist_clicked()
     artistManager();
 }
 
+/**
+ * @brief MainWindow::on_btn_stop_clicked
+ */
 void MainWindow::on_btn_stop_clicked()
 {
     myMediaPlayer->stop();
+}
+
+/**
+ * @brief MainWindow::on_btn_next_clicked
+ */
+void MainWindow::on_btn_next_clicked()
+{
+    if(artistButton)
+    {
+        nextArtistPage();
+    }
+}
+
+/**
+ * @brief MainWindow::on_btn_previous_clicked
+ */
+void MainWindow::on_btn_previous_clicked()
+{
+    if(artistButton)
+    {
+        previousArtistPage();
+    }
 }

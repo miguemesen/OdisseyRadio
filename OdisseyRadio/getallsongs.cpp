@@ -5,7 +5,10 @@ getallsongs::getallsongs()
 
 }
 
-
+/**
+ * @brief getallsongs::fetchPreviousSongs Takes a position and gets the previous 20 songs from the csv
+ * @param position Position inside the csv
+ */
 void getallsongs::fetchPreviousSongs(int position)
 {
     std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks1.csv");
@@ -28,7 +31,10 @@ void getallsongs::fetchPreviousSongs(int position)
     }
 }
 
-
+/**
+ * @brief getallsongs::fetchSongs Takes a position and gets the next 20 songs from the csv
+ * @param position Position inside the csv
+ */
 void getallsongs::fetchSongs(int position)
 {
     std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks1.csv");

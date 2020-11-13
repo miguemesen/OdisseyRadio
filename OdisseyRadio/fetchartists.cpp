@@ -14,6 +14,10 @@ fetchArtists::fetchArtists()
 
 }
 
+/**
+ * @brief fetchArtists::getPreviousArtist Gets the previous five artist with their respective songs from a positon in the csv
+ * @param position Position inside the csv
+ */
 void fetchArtists::getPreviousArtist(int position)
 {
     finalPosition = position;
@@ -59,6 +63,10 @@ void fetchArtists::getPreviousArtist(int position)
         }
 }
 
+/**
+ * @brief fetchArtists::getArtists Gets the next five artist with their respective songs from a positon in the csv
+ * @param position Position inside the csv
+ */
 void fetchArtists::getArtists(int position)
 {
     firstPosition=position;
@@ -110,74 +118,6 @@ void fetchArtists::getArtists(int position)
     }
 }
 
-void fetchArtists::getNextArtists(int position)
-{
-    int artistCount = 0;
-    std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks1.csv");
-    std::vector<std::vector<std::string>> parsedCsv;
-    csvparse myParse;
-    parsedCsv = myParse.readCSV(ip);
-    std::string temp="";
-
-    while (artist_list.size()!=10)
-    {
-
-        if (temp=="" && artistCount<10)
-        {
-            temp=parsedCsv[position][1];
-            artistCount+=1;
-            position+=1;
-        }
-
-        while(temp==parsedCsv[position][1] && artistCount<=10)
-        {
-            temp= parsedCsv[position][1];
-            position+=1;
-        }
-
-        if (temp=="" && artistCount>=10)
-        {
-            song *mySong = new song();
-
-            mySong->artistName = parsedCsv[position][1];
-
-            //mySong->songLength = parsedCsv[position][21];
-
-            mySong->songId = stoi(parsedCsv[position][0]);
-
-            std::string artistName2 = parsedCsv[position][1];
-            mySong->songName = parsedCsv[position][2];
-
-            artist *myArtist = new artist();
-            myArtist->artistName = mySong->artistName;
-            //log(*myArtist->artistName)
-            myArtist->songs->addNodo(*mySong);
-            //artists->addNodo(*myArtist);
-            artist_list[artistName2] = myArtist;
-            artistCount+=1;
-            position+=1;
-            temp= mySong->artistName;
-        }
-        while (temp==parsedCsv[position][1] && artistCount>=10)
-        {
-            song *mySong = new song;
-            mySong->artistName = parsedCsv[position][1];
-            //mySong->songName = parsedCsv[position][37];
-            //artists->get(artistCount-1)->data.songs->addNodo(*mySong);
-            mySong->songId = stoi(parsedCsv[position][0]);
-
-            //------------------------------------------------------
-
-            artist_list[temp]->songs->addNodo(*mySong);
-
-            //------------------------------------------------------
-            temp= mySong->artistName;
-            position+=1;
-        }
-        temp="";
-        finalPosition=position;
-    }
-}
 
 
 

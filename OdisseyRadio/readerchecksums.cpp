@@ -16,13 +16,22 @@ readerChecksums::readerChecksums()
 
 }
 
+/**
+ * @brief readerChecksums::getSongId Takes a line from the file checksums and return the id from that song
+ * @param songString Line from checksums
+ * @return
+ */
 std::string readerChecksums::getSongId(std::string songString){
     std::string temp = songString.erase(0,46);
     return temp.erase(6,4);
 }
 
 
-// Gets a song position with its id
+/**
+ * @brief readerChecksums::getSongById Gets a song position int the csv with its id
+ * @param songId
+ * @return  Position in the csv where the song is
+ */
 int readerChecksums::getSongById(std::string songId){
     std::ifstream ip(::path);
     std::string line;
@@ -51,23 +60,18 @@ int readerChecksums::getSongById(std::string songId){
     return songPos;
 }
 
+
 LinkedList<song> readerChecksums::getFirst(){
     std::ifstream ip(::path);
     std::string line;
     LinkedList<song> myList;
-    //std::vector<std::string> myVector(10);
     for(int i = 0; i < 20; i++)
     {
         song newSong;
         getline(ip,line,'\n');
-//        newSong.songId=getSongId(line);
-//        newSong.songPath=getSongPath(line);
         myList.addNodo(newSong);
-        //myVector[i]=line;
     }
-
     return myList;
-    // Used to return myVector
 }
 
 LinkedList<song> readerChecksums::getPrevious(std::string songId){
@@ -94,7 +98,11 @@ LinkedList<song> readerChecksums::getPrevious(std::string songId){
     // Used to return myVector
 }
 
-
+/**
+ * @brief readerChecksums::getSongPathById Takes a sogn id and return the path of the song
+ * @param id Song id
+ * @return Song path
+ */
 std::string readerChecksums::getSongPathById(std::string id)
 {
     std::ifstream ip(::path);
@@ -111,12 +119,10 @@ std::string readerChecksums::getSongPathById(std::string id)
 }
 
 
-// Gets next 5 lines and returns them in a vector
 LinkedList<song> readerChecksums::getNext(std::string songId){
     std::ifstream ip(::path);
     std::string line;
     LinkedList<song> myList;
-    //std::vector<std::string> myVector(10);
     int reps = getSongById(songId);
     for (int i=0; i<reps; i++)
     {
@@ -126,33 +132,19 @@ LinkedList<song> readerChecksums::getNext(std::string songId){
     {
         song newSong;
         getline(ip,line,'\n');
-//        newSong.songId=getSongId(line);
-//        newSong.songPath=getSongPath(line);
         myList.addNodo(newSong);
-        //myVector[i]=line;
     }
 
     return myList;
-    // Used to return myVector
 }
 
+/**
+ * @brief readerChecksums::getSongPath Takes a line from the checksums file and returns the path of a song
+ * @param songString Line from checksums file
+ * @return Song path
+ */
 std::string readerChecksums::getSongPath(std::string songString){
     std::string myPath = "/home/migue/Desktop/fma_small/";
     myPath+=songString.erase(0,42);
     return myPath;
 }
-
-
-
-
-
-//int main(){
-//    readerChecksums myReader;
-//    LinkedList<std::string> newList = myReader.getNext("000005");
-//    for (int i = 0; i<10; i++)
-//    {
-//        log(newList.get(i)->data)
-//    }
-//    std::cout<<"this is song path: "<<myReader.getSongPath(newList.get(3)->data)<<std::endl;
-//    std::cout<<"this is song Id: "<<myReader.getSongId(newList.get(3)->data)<<std::endl;
-//}

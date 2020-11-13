@@ -95,18 +95,6 @@ std::vector<std::vector<std::string>> csvparse::readCSV(std::istream &in) {
 
 
 
-//int main()
-//{
-//    std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks2.csv");
-//    std::vector<std::vector<std::string>> parsedCsv;
-//    csvparse myParse;
-//    parsedCsv = myParse.readCSV(ip);
-//    log(parsedCsv[1592][5]);
-//}
-
-
-
-
 
 
 

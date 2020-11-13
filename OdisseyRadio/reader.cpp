@@ -27,6 +27,10 @@ reader::reader()
 
 }
 
+/**
+     * @brief reader::getIp
+     * @param id
+     */
     void reader::getIp(int id){
         ifstream ip(::path2);
         getline(ip,line,'\n');
@@ -85,19 +89,4 @@ reader::reader()
         std::cout<<"Song Length: "<<songLength<<std::endl;
         std::cout<<"Song Genre: "<<songGenre<<std::endl;
     }
-
-
-
-
-
-//int main() {
-//    reader myReader;
-//    myReader.getIp(20);
-//    myReader.fillCsvColumn();
-//    myReader.fillList();
-//    myReader.assignSongInfo();
-//    myReader.logMetadata();
-//    return 0;
-//}
-
 
