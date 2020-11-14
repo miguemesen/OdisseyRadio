@@ -24,8 +24,9 @@ void fetchArtists::getPreviousArtist(int position)
     int newPosition = position-1;
         std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks1.csv");
         std::vector<std::vector<std::string>> parsedCsv;
-        csvparse myParse;
-        parsedCsv = myParse.readCSV(ip);
+//        csvparse myParse;
+//        parsedCsv = myParse.readCSV(ip);
+        parsedCsv = csvparse::myReadCsv();
         std::string temp="";
         while (artist_list.size()!=5)
         {
@@ -72,8 +73,9 @@ void fetchArtists::getArtists(int position)
     firstPosition=position;
     std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks1.csv");
     std::vector<std::vector<std::string>> parsedCsv;
-    csvparse myParse;
-    parsedCsv = myParse.readCSV(ip);
+//    csvparse myParse;
+//    parsedCsv = myParse.readCSV(ip);
+    parsedCsv = csvparse::myReadCsv();
     std::string temp="";
 
     while (artist_list.size()!=5)

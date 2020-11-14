@@ -13,8 +13,9 @@ void getallsongs::fetchPreviousSongs(int position)
 {
     std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks1.csv");
     std::vector<std::vector<std::string>> parsedCsv;
-    csvparse myParse;
-    parsedCsv = myParse.readCSV(ip);
+//    csvparse myParse;
+//    parsedCsv = myParse.readCSV(ip);
+    parsedCsv = csvparse::myReadCsv();
 
     while(song_list.size()!=20)
     {
@@ -39,8 +40,9 @@ void getallsongs::fetchSongs(int position)
 {
     std::ifstream ip("/home/migue/Desktop/fma_metadata/raw_tracks1.csv");
     std::vector<std::vector<std::string>> parsedCsv;
-    csvparse myParse;
-    parsedCsv = myParse.readCSV(ip);
+//    csvparse myParse;
+//    parsedCsv = myParse.readCSV(ip);
+    parsedCsv = csvparse::myReadCsv();
 
     while(song_list.size()!=20)
     {

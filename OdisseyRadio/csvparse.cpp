@@ -7,6 +7,12 @@
 #include "csvparse.h"
 #define log(x) std::cout<<x<<std::endl;
 
+
+
+
+
+
+
 /**
  * @brief The CSVState enum
  */
