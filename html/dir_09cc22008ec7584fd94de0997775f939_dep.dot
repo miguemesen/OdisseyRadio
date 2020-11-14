@@ -1,0 +1,9 @@
+digraph "OdisseyRadio" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  dir_09cc22008ec7584fd94de0997775f939 [shape=box, label="OdisseyRadio", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_09cc22008ec7584fd94de0997775f939.html"];
+  dir_d48a51e45c2941f9fc751ae6ee9f7b5e [shape=box label="build-OdisseyRadio-Desktop-Debug" URL="dir_d48a51e45c2941f9fc751ae6ee9f7b5e.html"];
+  dir_d48a51e45c2941f9fc751ae6ee9f7b5e->dir_09cc22008ec7584fd94de0997775f939 [headlabel="1", labeldistance=1.5 headhref="dir_000000_000001.html"];
+  dir_09cc22008ec7584fd94de0997775f939->dir_d48a51e45c2941f9fc751ae6ee9f7b5e [headlabel="1", labeldistance=1.5 headhref="dir_000001_000000.html"];
+}
