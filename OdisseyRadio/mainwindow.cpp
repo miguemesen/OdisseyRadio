@@ -85,6 +85,9 @@ void MainWindow::onSongClicked()
 {
     if(allButton)
     {
+        ui->label_SN_text->setText(QString::fromStdString(allSongsMap[ui->lw_song->currentItem()->text().toUtf8().constData()]->songName));
+        ui->label_AN_text->setText(QString::fromStdString(allSongsMap[ui->lw_song->currentItem()->text().toUtf8().constData()]->artistName));
+        ui->label_SID->setText(QString::number(allSongsMap[ui->lw_song->currentItem()->text().toUtf8().constData()]->songId));
         if(strcmp(allSongsMap[ui->lw_song->currentItem()->text().toUtf8().constData()]->songPath.c_str(), SONG_NOT_FOUND) == 0)
         {
             alert("La cancion no existe");
@@ -106,12 +109,18 @@ void MainWindow::onSongClicked()
             break;
         }
     }
+
+    ui->label_SN_text->setText(QString::fromStdString(current_song.songName));
+    ui->label_AN_text->setText(QString::fromStdString(current_song.artistName));
+    ui->label_SID->setText(QString::number(current_song.songId));
+
     std::string id = std::to_string(current_song.songId);
     std::string path = myRC.getSongPathById(id);
     if(strcmp(path.c_str(), SONG_NOT_FOUND) == 0){
         alert("La cancion no existe");
         return;
     }
+
     myMediaPlayer->setMedia(QUrl::fromLocalFile(QString::fromStdString(path)));
     myMediaPlayer->setVolume(default_volume);
     ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
@@ -123,14 +132,14 @@ void MainWindow::onSongClicked()
  */
 void MainWindow::pageManager()
 {
-    if(ui->lw_song->verticalScrollBar()->value()>=48)
+    if(ui->lw_song->verticalScrollBar()->value()>=48 && allButton)
     {
         ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
         nextPage();
         ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
     }
 
-    if(ui->lw_song->verticalScrollBar()->value()<=2)
+    if(ui->lw_song->verticalScrollBar()->value()<=2 && allButton)
     {
         ui->label_2->setText(QString::number( s_AllocationMetrics.CurrentUsage()));
         previousPage();
