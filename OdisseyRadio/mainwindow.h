@@ -53,6 +53,8 @@ private slots:
 
     void on_btn_previous_clicked();
 
+    void on_checkBox_paging_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMediaPlayer *myMediaPlayer;

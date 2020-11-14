@@ -413,13 +413,6 @@ void MainWindow::on_btn_allsongs_clicked()
         ui->lw_song->insertItem(index,QString::fromStdString(nextSongNames[i]));
         index++;
     }
-
-//    int index = 0;
-//    for(std::unordered_map<std::string,song*>::iterator it=allSongsMap.begin(); it != allSongsMap.end(); it++)
-//    {
-//        ui->lw_song->insertItem(index,QString::fromStdString(it->second->songName));
-//        index++;
-//    }
 }
 
 /**
@@ -490,5 +483,13 @@ void MainWindow::on_btn_previous_clicked()
     if(artistButton)
     {
         previousArtistPage();
+    }
+}
+
+void MainWindow::on_checkBox_paging_clicked()
+{
+    if(ui->checkBox_paging->isChecked() && allButton)
+    {
+        on_btn_allsongs_clicked();
     }
 }
